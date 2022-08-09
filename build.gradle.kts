@@ -4,20 +4,13 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.43.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
     }
 }
 
 allprojects {
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
-            sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-            targetCompatibility = JavaVersion.VERSION_1_8.toString()
-        }
-    }
-
     repositories {
         google()
         mavenCentral()
