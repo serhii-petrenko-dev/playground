@@ -42,6 +42,8 @@ class HomeViewModel @Inject constructor(
         destinations.add(Destination(id = R.id.goOverlay, name = "Floating Overlay", drawableRes = R.drawable.ic_overlay))
         destinations.add(Destination(id = R.id.goMultiCam, name = "Multiple Cameras", drawableRes = R.drawable.ic_camera_multi))
         destinations.add(Destination(id = R.id.goInputsDemo, name = "Inputs Demo", drawableRes = R.drawable.ic_text_fields))
+        destinations.add(Destination(id = R.id.goFileSystem, name = "File System", drawableRes = R.drawable.ic_folder))
+        destinations.add(Destination(id = R.id.goWorkManager, name = "Work Manager", drawableRes = R.drawable.ic_downloading))
 
         return destinations
     }
