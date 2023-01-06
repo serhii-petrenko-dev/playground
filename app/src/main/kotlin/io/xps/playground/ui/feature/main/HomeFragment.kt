@@ -28,6 +28,7 @@ import io.xps.playground.R
 import io.xps.playground.databinding.FragmentComposeBinding
 import io.xps.playground.tools.keyboardAsState
 import io.xps.playground.tools.viewBinding
+import io.xps.playground.ui.composables.ScreenTittle
 import io.xps.playground.ui.feature.main.HomeViewModel.Destination
 import io.xps.playground.ui.theme.PlaygroundTheme
 import kotlinx.coroutines.launch
@@ -71,6 +72,7 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                 val scrollState = rememberLazyListState()
                 val scope = rememberCoroutineScope()
                 LazyColumn(
+                    modifier = Modifier.imePadding(),
                     contentPadding = contentPadding,
                     state = scrollState
                 ) {
@@ -87,15 +89,7 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                                     }
                                 }
                             }
-                            Text(
-                                modifier = Modifier.padding(
-                                    top = 104.dp,
-                                    start = 16.dp,
-                                    end = 16.dp
-                                ),
-                                text = "Playground",
-                                style = MaterialTheme.typography.bodyLarge
-                            )
+                            ScreenTittle(text = "Playground")
                         }
                     }
                     item {
@@ -103,7 +97,7 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .statusBarsPadding()
-                                .padding(vertical = 16.dp, horizontal = 16.dp)
+                                .padding(horizontal = 16.dp)
                                 .clip(RoundedCornerShape(50)),
                             value = searchQuery,
                             singleLine = true,
