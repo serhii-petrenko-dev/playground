@@ -1,5 +1,19 @@
 <resources>
-    <string name="app_name">Playground</string>
+    <string name="app_name" translatable="false">Playground</string>
+
+    <string name="permissions">Permissions</string>
+    <string name="compose">Compose</string>
+    <string name="view">View</string>
+    <string name="floating_overlay">Floating Overlay</string>
+    <string name="multiple_cameras">Multiple Cameras</string>
+    <string name="inputs_demo">Inputs Demo</string>
+    <string name="file_system">File System</string>
+    <string name="work_manager">Work Manager</string>
+    <string name="language_picker">Language Picker</string>
+
     <string name="camera_permission">Grant camera permission</string>
-    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="camera_error">This device does not support Camera2 API.</string>
+
+    <string name="ukr">Ukrainian</string>
+    <string name="eng">English</string>
 </resources>

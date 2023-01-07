@@ -2,6 +2,8 @@ package io.xps.playground
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -11,6 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.xps.playground.databinding.ActivityMainBinding
 import io.xps.playground.tools.NavigationDispatcher
 import javax.inject.Inject
+
+const val TRANSLUCENT_STATUS = 67108864
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -23,17 +27,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        applyEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        applyEdgeToEdge()
         initNavigation()
-        lifecycleScope.launchWhenResumed { observeNavigationCommands() }
+        lifecycleScope.launchWhenResumed {
+            observeNavigationCommands()
+        }
     }
 
     private fun applyEdgeToEdge() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.clearFlags(TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.Transparent.toArgb()
+        window.navigationBarColor = Color.Transparent.toArgb()
     }
 
     private fun initNavigation() {

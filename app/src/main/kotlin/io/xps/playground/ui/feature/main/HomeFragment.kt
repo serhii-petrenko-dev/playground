@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,13 +68,12 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
         onSearchQuery: (String) -> Unit
     ) {
         Scaffold(modifier = Modifier.fillMaxSize()) { contentPadding ->
-            Surface {
+            Surface(modifier = Modifier.padding(bottom = contentPadding.calculateBottomPadding())) {
                 val keyboardIsOpen = keyboardAsState()
                 val scrollState = rememberLazyListState()
                 val scope = rememberCoroutineScope()
                 LazyColumn(
                     modifier = Modifier.imePadding(),
-                    contentPadding = contentPadding,
                     state = scrollState
                 ) {
                     item {
@@ -154,13 +154,13 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                verticalArrangement = Arrangement.Center
            ) {
                Text(
-                   text = destination.name,
+                   text = stringResource(id = destination.name),
                    style = MaterialTheme.typography.bodyMedium,
                )
                if(destination.hint.isNotBlank()){
                    Text(
                        modifier = Modifier.alpha(0.7f),
-                       text = destination.name,
+                       text = stringResource(id = destination.name),
                        style = MaterialTheme.typography.bodySmall
                    )
                }
