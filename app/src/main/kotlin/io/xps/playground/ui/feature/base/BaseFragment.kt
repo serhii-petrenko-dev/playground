@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,5 +37,11 @@ class BaseFragment: Fragment(R.layout.fragment_compose) {
         BaseColumn {
 
         }
+    }
+
+    @Preview
+    @Composable
+    fun Preview(){
+        BaseScreen()
     }
 }

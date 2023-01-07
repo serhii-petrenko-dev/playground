@@ -57,6 +57,14 @@
             app:popExitAnim="@anim/hide_to_right"
             app:popEnterAnim="@anim/show_from_left"/>
 
+        <action
+            android:id="@+id/goLanguagePicker"
+            app:destination="@+id/fragmentLanguagePicker"
+            app:enterAnim="@anim/show_from_right"
+            app:exitAnim="@anim/hide_to_left"
+            app:popExitAnim="@anim/hide_to_right"
+            app:popEnterAnim="@anim/show_from_left"/>
+
     </fragment>
 
     <fragment
@@ -87,6 +95,11 @@
     <fragment
         android:id="@+id/fragmentWorkManager"
         android:name="io.xps.playground.ui.feature.workmanager.WorkManagerFragment"
+        tools:layout="@layout/fragment_compose"/>
+
+    <fragment
+        android:id="@+id/fragmentLanguagePicker"
+        android:name="io.xps.playground.ui.feature.languagepicker.LanguageFragment"
         tools:layout="@layout/fragment_compose"/>
 
 

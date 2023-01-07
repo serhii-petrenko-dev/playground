@@ -86,7 +86,7 @@ class WorkManagerFragment: Fragment(R.layout.fragment_compose) {
                     onClick = {
                         val actionView = Intent(Intent.ACTION_VIEW, outputUri)
                         if (actionView.resolveActivity(context.packageManager) != null){
-                            startActivity(actionVieww)
+                            startActivity(actionView)
                         }
                     },
                     content = { Text(text = "Watch Blured") }
