@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     kotlin("kapt")
     kotlin("android")
@@ -21,12 +23,16 @@ android {
             useSupportLibrary = true
         }
 
-        resourceConfigurations.addAll(arrayOf("en", "uk"))
+        resourceConfigurations.addAll(arrayOf("en", "ar"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            isPseudoLocalesEnabled = true
+        }
+
         release {
             isMinifyEnabled = false
             isMinifyEnabled
@@ -60,16 +66,18 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.4.0-alpha03")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha01")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.activity:activity-compose:1.7.0-alpha02")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.activity:activity-compose:1.7.0-alpha03")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.compose.material3:material3:1.1.0-alpha03")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.0-alpha03")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha04")
 
     implementation("com.squareup.okio:okio:3.2.0")
     implementation("com.squareup.logcat:logcat:0.1")
 
-    implementation("io.coil-kt:coil-compose:2.1.0")
+    implementation("io.coil-kt:coil-compose:2.2.0")
     implementation("com.google.android.material:material:1.7.0")
     implementation("com.google.accompanist:accompanist-permissions:0.24.11-rc")
 
@@ -77,10 +85,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     implementation("androidx.hilt:hilt-navigation:1.0.0")
 
+    debugImplementation("androidx.compose.ui:ui-tooling:1.4.0-alpha03")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.0-alpha03")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.4.0-alpha03")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.0-alpha03")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.0-alpha03")
 }

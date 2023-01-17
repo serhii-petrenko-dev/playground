@@ -46,6 +46,7 @@ class HomeViewModel @Inject constructor(
         destinations.add(Destination(id = R.id.goFileSystem, name = R.string.file_system, drawableRes = R.drawable.ic_folder))
         destinations.add(Destination(id = R.id.goWorkManager, name = R.string.work_manager, drawableRes = R.drawable.ic_downloading))
         destinations.add(Destination(id = R.id.goLanguagePicker, name = R.string.language_picker, drawableRes = R.drawable.ic_translate))
+        destinations.add(Destination(id = R.id.goImagePicker, name = R.string.image_picker, drawableRes = R.drawable.ic_image_search))
 
         return destinations
     }

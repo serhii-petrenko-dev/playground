@@ -1,18 +1,24 @@
 package io.xps.playground.ui.feature.languagepicker
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate.getApplicationLocales
 import androidx.appcompat.app.AppCompatDelegate.setApplicationLocales
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,85 +26,92 @@ import io.xps.playground.R
 import io.xps.playground.databinding.FragmentComposeBinding
 import io.xps.playground.tools.viewBinding
 import io.xps.playground.ui.composables.BaseColumn
+import io.xps.playground.ui.composables.FixInAppLanguageSwitchLayoutDirection
+import io.xps.playground.ui.composables.ListItem
+import io.xps.playground.ui.composables.ScreenTittle
 import io.xps.playground.ui.theme.PlaygroundTheme
 import java.util.*
+
+val LANGUAGES: List<LanguageItem> = listOf(
+    LanguageItem(R.string.system_default, R.drawable.ic_text_fields, ""),
+    LanguageItem(R.string.eng, R.drawable.ic_translate, "en"),
+    LanguageItem(R.string.ar, R.drawable.ic_translate, "ar")
+)
 
 @AndroidEntryPoint
 class LanguageFragment: Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
 
-    private var isEngLocale by mutableStateOf(true)
+    private val currentLocale = mutableStateOf(getCurrentLocale())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.containerCompose.setViewCompositionStrategy(
             ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
         )
+
         binding.containerCompose.setContent {
             PlaygroundTheme {
+                val languages = remember { LANGUAGES }
                 BaseScreen(
-                    isEngLocale = isEngLocale,
-                    onClick = { useEng ->
-                        if (isEngLocale != useEng){
-                            val locale = if (useEng) {
-                                Locale("en", "US")
-                            } else Locale("uk", "UA")
-                            val localeList = LocaleListCompat.create(locale)
-                            setApplicationLocales(localeList)
-                        }
+                    languages = languages,
+                    currentLocale = currentLocale.value,
+                    onClick = { language ->
+                        val localeList = LocaleListCompat.create(Locale(language.locale))
+                        setApplicationLocales(localeList)
                     }
                 )
             }
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun isEng(): Boolean {
-        val locales = getApplicationLocales()
-        return if (locales.isEmpty) {
-            val context = binding.root.context
-            val locale: Locale? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                context.resources.configuration.locales.get(0)
-            } else context.resources.configuration.locale
-            locale?.language == "en"
-        } else locales.get(0)?.language == "en"
-    }
-
     @Composable
-    fun BaseScreen(isEngLocale: Boolean, onClick: (Boolean) -> Unit) {
-        BaseColumn {
-            Row(Modifier.fillMaxSize()) {
-                Button(
+    fun BaseScreen(
+        currentLocale: Locale?,
+        languages: List<LanguageItem>,
+        onClick: (LanguageItem) -> Unit,
+    ) = FixInAppLanguageSwitchLayoutDirection {
+        Surface {
+            BaseColumn() {
+                ScreenTittle(
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f),
-                    shape = RectangleShape,
-                    onClick = { onClick(false) },
-                    content = {
-                        var text = stringResource(id = R.string.ukr)
-                        if (!isEngLocale) text += " ✔️"
-                        Text(text = text)
-                    }
+                        .align(Start)
+                        .padding(bottom = 4.dp),
+                    text = stringResource(id = R.string.language_picker)
                 )
-                Button(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f),
-                    shape = RectangleShape,
-                    onClick = { onClick(true) },
-                    content = {
-                        var text = stringResource(id = R.string.eng)
-                        if (isEngLocale) text += " ✔️"
-                        Text(text = text)
+
+                LazyColumn(modifier = Modifier.imePadding()) {
+                    items(languages) {
+                        ListItem(
+                            tittle = stringResource(id = it.tittle),
+                            hint = it.locale,
+                            drawable = it.drawable,
+                            isSelected = currentLocale?.toLanguageTag().equals(it.locale),
+                            onClick = { onClick(it) }
+                        )
                     }
-                )
+                }
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        isEngLocale = isEng()
+        currentLocale.value = getCurrentLocale()
+    }
+
+    private fun getCurrentLocale(): Locale? {
+        val currentLanguageTag = getApplicationLocales().toLanguageTags()
+        return when {
+            currentLanguageTag.isEmpty() -> null
+            else -> Locale.forLanguageTag(currentLanguageTag)
+        }
     }
 }
+
+data class LanguageItem(
+    @StringRes val tittle: Int,
+    @DrawableRes val drawable: Int,
+    val locale: String
+)

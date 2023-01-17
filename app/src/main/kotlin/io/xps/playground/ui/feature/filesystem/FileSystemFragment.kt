@@ -112,11 +112,6 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
         }
     }
 
-
-
-
-
-
     @Composable
     fun FileSystemScreen() {
         Surface {
@@ -198,8 +193,7 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
                     width = 4.dp,
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(12)
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
         ) {
             val start = remember { mutableStateOf(false)}
             AnimatedVisibility(
