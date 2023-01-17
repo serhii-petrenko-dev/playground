@@ -10,10 +10,18 @@
     <string name="file_system">File System</string>
     <string name="work_manager">Work Manager</string>
     <string name="language_picker">Language Picker</string>
+    <string name="image_picker">Image Picker</string>
 
     <string name="camera_permission">Grant camera permission</string>
     <string name="camera_error">This device does not support Camera2 API.</string>
 
-    <string name="ukr">Ukrainian</string>
+    <string name="system_default">System Default</string>
+    <string name="ar">Arabic</string>
     <string name="eng">English</string>
+
+    <string name="no_media">No media selected</string>
+    <string name="persist_access">Persist media access</string>
+    <string name="media_error">Can\'t access stored media</string>
+    <string name="no_image_picker">Image Picker not available</string>
+
 </resources>
