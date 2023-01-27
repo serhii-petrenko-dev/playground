@@ -37,8 +37,8 @@ class HomeViewModel @Inject constructor(
 
         val element = Destination(id = R.id.goPermissions, name = R.string.permissions, drawableRes = R.drawable.ic_hand)
         destinations.add(element)
-        destinations.add(Destination(id = R.id.goPermissions, name = R.string.compose, drawableRes = R.drawable.ic_hexagon, parent = element))
-        destinations.add(Destination(id = R.id.goPermissions, name = R.string.view, drawableRes = R.drawable.ic_android, parent = element))
+        // destinations.add(Destination(id = R.id.goPermissions, name = R.string.compose, drawableRes = R.drawable.ic_hexagon, parent = element))
+        // destinations.add(Destination(id = R.id.goPermissions, name = R.string.view, drawableRes = R.drawable.ic_android, parent = element))
 
         destinations.add(Destination(id = R.id.goOverlay, name = R.string.floating_overlay, drawableRes = R.drawable.ic_overlay))
         destinations.add(Destination(id = R.id.goMultiCam, name = R.string.multiple_cameras, drawableRes = R.drawable.ic_camera_multi))

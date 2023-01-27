@@ -97,7 +97,7 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .statusBarsPadding()
-                                .padding(horizontal = 16.dp)
+                                .padding(16.dp)
                                 .clip(RoundedCornerShape(50)),
                             value = searchQuery,
                             singleLine = true,
