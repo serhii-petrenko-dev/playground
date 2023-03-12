@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
+import io.xps.playground.App
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -41,6 +42,7 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
                 }
 
             override fun onCreate(owner: LifecycleOwner) {
+                App.logScreenView(fragment.TAG)
                 fragment.viewLifecycleOwnerLiveData.observeForever(
                     viewLifecycleOwnerLiveDataObserver
                 )
