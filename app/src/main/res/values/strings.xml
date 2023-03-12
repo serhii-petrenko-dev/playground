@@ -11,6 +11,8 @@
     <string name="work_manager">Work Manager</string>
     <string name="language_picker">Language Picker</string>
     <string name="image_picker">Image Picker</string>
+    <string name="exo_player">Exo Player</string>
+    <string name="serialization">Serialization</string>
 
     <string name="camera_permission">Grant camera permission</string>
     <string name="camera_error">This device does not support Camera2 API.</string>

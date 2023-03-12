@@ -37,8 +37,6 @@ class HomeViewModel @Inject constructor(
 
         val element = Destination(id = R.id.goPermissions, name = R.string.permissions, drawableRes = R.drawable.ic_hand)
         destinations.add(element)
-        // destinations.add(Destination(id = R.id.goPermissions, name = R.string.compose, drawableRes = R.drawable.ic_hexagon, parent = element))
-        // destinations.add(Destination(id = R.id.goPermissions, name = R.string.view, drawableRes = R.drawable.ic_android, parent = element))
 
         destinations.add(Destination(id = R.id.goOverlay, name = R.string.floating_overlay, drawableRes = R.drawable.ic_overlay))
         destinations.add(Destination(id = R.id.goMultiCam, name = R.string.multiple_cameras, drawableRes = R.drawable.ic_camera_multi))
@@ -47,6 +45,8 @@ class HomeViewModel @Inject constructor(
         destinations.add(Destination(id = R.id.goWorkManager, name = R.string.work_manager, drawableRes = R.drawable.ic_downloading))
         destinations.add(Destination(id = R.id.goLanguagePicker, name = R.string.language_picker, drawableRes = R.drawable.ic_translate))
         destinations.add(Destination(id = R.id.goImagePicker, name = R.string.image_picker, drawableRes = R.drawable.ic_image_search))
+        destinations.add(Destination(id = R.id.goExoPlayer, name = R.string.exo_player, drawableRes = R.drawable.ic_display))
+        destinations.add(Destination(id = R.id.goSerialization, name = R.string.serialization, drawableRes = R.drawable.ic_transform))
 
         return destinations
     }
