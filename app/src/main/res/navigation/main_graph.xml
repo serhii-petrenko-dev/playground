@@ -1,7 +1,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/fragmentSerialization"
+    app:startDestination="@id/fragmentHome"
     android:id="@+id/main_graph">
 
     <fragment
@@ -89,6 +89,14 @@
             app:popExitAnim="@anim/hide_to_right"
             app:popEnterAnim="@anim/show_from_left"/>
 
+        <action
+            android:id="@+id/goNotifications"
+            app:destination="@+id/fragmentNotifications"
+            app:enterAnim="@anim/show_from_right"
+            app:exitAnim="@anim/hide_to_left"
+            app:popExitAnim="@anim/hide_to_right"
+            app:popEnterAnim="@anim/show_from_left"/>
+
     </fragment>
 
     <fragment
@@ -140,5 +148,20 @@
         android:id="@+id/fragmentSerialization"
         android:name="io.xps.playground.ui.feature.serialization.SerializationFragment"
         tools:layout="@layout/fragment_compose"/>
+
+    <fragment
+        android:id="@+id/fragmentNotifications"
+        android:name="io.xps.playground.ui.feature.notifications.NotificationsFragment"
+        tools:layout="@layout/fragment_compose">
+
+        <action
+            android:id="@+id/goPermissions"
+            app:destination="@+id/fragmentPermissions"
+            app:enterAnim="@anim/show_from_right"
+            app:exitAnim="@anim/hide_to_left"
+            app:popExitAnim="@anim/hide_to_right"
+            app:popEnterAnim="@anim/show_from_left"/>
+
+    </fragment>
 
 </navigation>

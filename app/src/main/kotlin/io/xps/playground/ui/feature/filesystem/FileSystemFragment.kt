@@ -38,7 +38,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import io.xps.playground.R
 import io.xps.playground.databinding.FragmentComposeBinding
-import io.xps.playground.tools.byteSizeToString
+import io.xps.playground.extensions.byteSizeToString
 import io.xps.playground.tools.viewBinding
 import io.xps.playground.ui.composables.ScreenTittle
 import io.xps.playground.ui.theme.PlaygroundTheme

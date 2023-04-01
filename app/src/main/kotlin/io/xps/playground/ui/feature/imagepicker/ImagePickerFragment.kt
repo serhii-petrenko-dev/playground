@@ -40,9 +40,9 @@ import coil.request.ImageRequest
 import dagger.hilt.android.AndroidEntryPoint
 import io.xps.playground.R
 import io.xps.playground.databinding.FragmentComposeBinding
+import io.xps.playground.extensions.toast
+import io.xps.playground.extensions.vibrate
 import io.xps.playground.tools.OnClick
-import io.xps.playground.tools.toast
-import io.xps.playground.tools.vibrate
 import io.xps.playground.tools.viewBinding
 import io.xps.playground.ui.theme.PlaygroundTheme
 import kotlinx.coroutines.flow.first
@@ -83,7 +83,6 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
         binding.containerCompose.setContent {
             PlaygroundTheme {
                 val imageUri = viewModel.imageUri.collectAsStateWithLifecycle(null)
-
                 BaseScreen(
                     imageUri = imageUri.value,
                     onClick = {

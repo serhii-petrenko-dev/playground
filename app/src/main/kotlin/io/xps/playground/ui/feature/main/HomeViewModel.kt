@@ -35,9 +35,8 @@ class HomeViewModel @Inject constructor(
     private fun boostrapNavigation(): List<Destination> {
         val destinations = mutableListOf<Destination>()
 
-        val element = Destination(id = R.id.goPermissions, name = R.string.permissions, drawableRes = R.drawable.ic_hand)
-        destinations.add(element)
-
+        destinations.add(Destination(id = R.id.goPermissions, name = R.string.permissions, drawableRes = R.drawable.ic_hand))
+        destinations.add(Destination(id = R.id.goNotifications, name = R.string.notifications, drawableRes = R.drawable.ic_notifications))
         destinations.add(Destination(id = R.id.goOverlay, name = R.string.floating_overlay, drawableRes = R.drawable.ic_overlay))
         destinations.add(Destination(id = R.id.goMultiCam, name = R.string.multiple_cameras, drawableRes = R.drawable.ic_camera_multi))
         destinations.add(Destination(id = R.id.goInputsDemo, name = R.string.inputs_demo, drawableRes = R.drawable.ic_text_fields))

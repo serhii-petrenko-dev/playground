@@ -13,6 +13,7 @@
     <string name="image_picker">Image Picker</string>
     <string name="exo_player">Exo Player</string>
     <string name="serialization">Serialization</string>
+    <string name="notifications">Notifications</string>
 
     <string name="camera_permission">Grant camera permission</string>
     <string name="camera_error">This device does not support Camera2 API.</string>
@@ -25,5 +26,8 @@
     <string name="persist_access">Persist media access</string>
     <string name="media_error">Can\'t access stored media</string>
     <string name="no_image_picker">Image Picker not available</string>
+    <string name="request_permission">Request permission</string>
+    <string name="permission_rationale">This permission is important. Please grant the permission.</string>
+    <string name="permission_request">%1$s is required. Please grant the permission</string>
 
 </resources>

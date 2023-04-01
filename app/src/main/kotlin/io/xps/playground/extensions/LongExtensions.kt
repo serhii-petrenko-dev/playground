@@ -1,4 +1,4 @@
-package io.xps.playground.tools
+package io.xps.playground.extensions
 
 import java.text.DecimalFormat
 import kotlin.math.log10
