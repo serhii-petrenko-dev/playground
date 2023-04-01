@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.filesystem
+package io.xps.playground.ui.feature.fileSystem
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,5 +11,4 @@ class FileSystemViewModel @Inject constructor(
 ) : ViewModel() {
 
     var sampleDataSize = 200f
-
 }

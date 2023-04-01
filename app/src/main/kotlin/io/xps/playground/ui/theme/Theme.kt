@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:experimental:property-naming")
+
 package io.xps.playground.ui.theme
 
 import android.graphics.Color
@@ -34,6 +36,7 @@ fun PlaygroundTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }

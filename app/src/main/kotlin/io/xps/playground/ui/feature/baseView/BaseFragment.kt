@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.baseview
+package io.xps.playground.ui.feature.baseView
 
 import android.os.Bundle
 import android.view.View
@@ -10,14 +10,12 @@ import io.xps.playground.databinding.FragmentComposeBinding
 import io.xps.playground.tools.viewBinding
 
 @AndroidEntryPoint
-class BaseFragment: Fragment(R.layout.fragment_compose) {
+class BaseFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<BaseViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
-
 }

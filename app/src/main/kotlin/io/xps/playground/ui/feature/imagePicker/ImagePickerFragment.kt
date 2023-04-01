@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.imagepicker
+package io.xps.playground.ui.feature.imagePicker
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -49,7 +49,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
+class ImagePickerFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<ImagePickerViewModel>()
@@ -61,10 +61,11 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
             ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
         )
 
-        val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        val mediaContract = ActivityResultContracts.PickVisualMedia()
+        val pickMedia = registerForActivityResult(mediaContract) { uri ->
             if (uri != null) {
                 viewModel.storeUri(uri)
-                if (viewModel.persistMediaAccess.value){
+                if (viewModel.persistMediaAccess.value) {
                     persistUriAccess(uri)
                 }
             } else {
@@ -88,7 +89,7 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
                     onClick = {
                         val contractType = ActivityResultContracts.PickVisualMedia.ImageOnly
                         val mediaRequest = PickVisualMediaRequest(contractType)
-                        if(isPhotoPickerAvailable()){
+                        if (isPhotoPickerAvailable()) {
                             pickMedia.launch(mediaRequest)
                         } else {
                             binding.root.context.toast(R.string.no_image_picker)
@@ -108,11 +109,7 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun BaseScreen(
-        imageUri: Uri?,
-        onClick: OnClick,
-        onLongClick: OnClick
-    ) {
+    fun BaseScreen(imageUri: Uri?, onClick: OnClick, onLongClick: OnClick) {
         var hasImage by remember { mutableStateOf(false) }
         Surface(modifier = Modifier.fillMaxSize()) {
             val persistMediaAccess = viewModel.persistMediaAccess.collectAsState()
@@ -121,18 +118,20 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = CenterHorizontally
             ) {
-                Box(modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(10))
-                    .border(
-                        width = 6.dp,
-                        color = Color.White.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(10)
-                    ).combinedClickable(
-                        onClick = onClick,
-                        onLongClick = onLongClick
-                    )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(10))
+                        .border(
+                            width = 6.dp,
+                            color = Color.White.copy(alpha = 0.2f),
+                            shape = RoundedCornerShape(10)
+                        )
+                        .combinedClickable(
+                            onClick = onClick,
+                            onLongClick = onLongClick
+                        )
                 ) {
                     hasImage = imageUri != null
                     Image(
@@ -151,14 +150,16 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
                                     .error(R.drawable.ic_image_search)
                                     .build(),
                                 onState = {
-                                    when(it){
+                                    when (it) {
                                         is AsyncImagePainter.State.Success -> {
                                             hasImage = true
                                         }
+
                                         is AsyncImagePainter.State.Error -> {
                                             viewModel.storeUri(null)
                                             binding.root.context.toast(R.string.media_error)
                                         }
+
                                         else -> {}
                                     }
                                 }
@@ -180,7 +181,7 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
                         onCheckedChange = {
                             viewModel.mediaAccess(it)
                             if (imageUri != null) {
-                                if(it){
+                                if (it) {
                                     persistUriAccess(imageUri)
                                 } else {
                                     releaseUriAccess(imageUri)
@@ -197,16 +198,16 @@ class ImagePickerFragment: Fragment(R.layout.fragment_compose) {
         }
     }
 
-    private fun persistUriAccess(uri: Uri){
+    private fun persistUriAccess(uri: Uri) {
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 requireContext().contentResolver.takePersistableUriPermission(uri, flag)
             }
         }
     }
 
-    private fun releaseUriAccess(uri: Uri){
+    private fun releaseUriAccess(uri: Uri) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION

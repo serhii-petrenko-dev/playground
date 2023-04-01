@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.multicam
+package io.xps.playground.ui.feature.multiCam
 
 import android.util.Size
 import kotlin.math.abs
@@ -9,24 +9,27 @@ import kotlin.math.abs
  */
 internal class CompareSizesByViewAspectRatio(
     private val viewHeight: Int,
-    private val viewWidth: Int) : Comparator<Size> {
+    private val viewWidth: Int
+) : Comparator<Size> {
 
     // We cast here to ensure the multiplications won't overflow
 //    override fun compare(lhs: Size, rhs: Size) =
 //            signum(lhs.width.toLong() * lhs.height - rhs.width.toLong() * rhs.height)
 
     override fun compare(lhs: Size, rhs: Size): Int {
-        val lhsAspect = lhs.height/lhs.width
-        val rhsAspect = rhs.height/rhs.height
-        val requiredAspectRatio = viewHeight/viewWidth
+        val lhsAspect = lhs.height / lhs.width
+        val rhsAspect = rhs.height / rhs.height
+        val requiredAspectRatio = viewHeight / viewWidth
         val lhsDistanceFrom1 = abs(lhsAspect - requiredAspectRatio)
         val rhsDistanceFrom1 = abs(rhsAspect - requiredAspectRatio)
 
-        return if (lhsDistanceFrom1 < rhsDistanceFrom1) 1
-        else -1
+        return if (lhsDistanceFrom1 < rhsDistanceFrom1) {
+            1
+        } else {
+            -1
+        }
     }
     /*
      * Aspect ratio of LHS should be nearer to one
      */
-
 }

@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager
+package io.xps.playground.ui.feature.workManager
 
 import android.content.Intent
 import android.os.Bundle
@@ -26,11 +26,11 @@ import io.xps.playground.R
 import io.xps.playground.databinding.FragmentComposeBinding
 import io.xps.playground.tools.viewBinding
 import io.xps.playground.ui.composables.ScreenTittle
-import io.xps.playground.ui.feature.workmanager.worker.KEY_IMAGE_URI
+import io.xps.playground.ui.feature.workManager.worker.KEY_IMAGE_URI
 import io.xps.playground.ui.theme.PlaygroundTheme
 
 @AndroidEntryPoint
-class WorkManagerFragment: Fragment(R.layout.fragment_compose) {
+class WorkManagerFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<WorkManagerViewModel>()
@@ -46,7 +46,7 @@ class WorkManagerFragment: Fragment(R.layout.fragment_compose) {
             }
         }
 
-        viewModel.workInfo.observe(viewLifecycleOwner){
+        viewModel.workInfo.observe(viewLifecycleOwner) {
             it?.firstOrNull()?.let { info ->
                 val outputUri = info.outputData.getString(KEY_IMAGE_URI)
                 viewModel.workStatus(!info.state.isFinished, outputUri)
@@ -79,20 +79,20 @@ class WorkManagerFragment: Fragment(R.layout.fragment_compose) {
                 steps = 1
             )
 
-            if(outputUri != null){
+            if (outputUri != null) {
                 val context = LocalContext.current
                 Button(
                     modifier = Modifier.align(CenterHorizontally),
                     onClick = {
                         val actionView = Intent(Intent.ACTION_VIEW, outputUri)
-                        if (actionView.resolveActivity(context.packageManager) != null){
+                        if (actionView.resolveActivity(context.packageManager) != null) {
                             startActivity(actionView)
                         }
                     },
                     content = { Text(text = "Watch Blured") }
                 )
             }
-            if(workRunning){
+            if (workRunning) {
                 Button(
                     modifier = Modifier.align(CenterHorizontally),
                     onClick = viewModel::cancel,

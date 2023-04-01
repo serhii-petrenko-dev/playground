@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <io.xps.playground.ui.feature.multicam.AutoFitTextureView
+    <io.xps.playground.ui.feature.multiCam.AutoFitTextureView
         android:layout_weight="1"
         android:id="@+id/texture1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <io.xps.playground.ui.feature.multicam.AutoFitTextureView
+    <io.xps.playground.ui.feature.multiCam.AutoFitTextureView
         android:layout_weight="1"
         android:id="@+id/texture2"
         android:layout_width="match_parent"

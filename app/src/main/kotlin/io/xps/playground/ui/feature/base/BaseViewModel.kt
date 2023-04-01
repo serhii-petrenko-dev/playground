@@ -8,6 +8,4 @@ import javax.inject.Inject
 @HiltViewModel
 class BaseViewModel @Inject constructor(
     private val navigationDispatcher: NavigationDispatcher
-) : ViewModel() {
-
-}
+) : ViewModel()

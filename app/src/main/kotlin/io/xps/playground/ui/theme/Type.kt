@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:experimental:property-naming")
+
 package io.xps.playground.ui.theme
 
 import androidx.compose.material3.Typography

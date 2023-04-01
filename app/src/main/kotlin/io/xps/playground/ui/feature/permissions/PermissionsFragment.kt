@@ -34,7 +34,7 @@ import io.xps.playground.ui.composables.BaseColumn
 import io.xps.playground.ui.theme.PlaygroundTheme
 
 @AndroidEntryPoint
-class PermissionsFragment: Fragment(R.layout.fragment_compose) {
+class PermissionsFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
 
@@ -68,21 +68,22 @@ class PermissionsFragment: Fragment(R.layout.fragment_compose) {
                             width = 4.dp,
                             color = borderColor,
                             shape = RoundedCornerShape(12)
-                        ).padding(16.dp)
+                        )
+                        .padding(16.dp)
                 }
 
                 val permissionState = rememberPermissionState(permission)
                 if (permissionState.status == PermissionStatus.Granted) {
                     ContentText(borderModifier, "$permission permission Granted")
                 } else {
-                    PermissionDenied(borderModifier, permission , permissionState)
+                    PermissionDenied(borderModifier, permission, permissionState)
                 }
             }
         }
     }
 
     @Composable
-    private fun ContentText(modifier: Modifier = Modifier, textToShow: String){
+    private fun ContentText(modifier: Modifier = Modifier, textToShow: String) {
         Text(
             modifier = modifier.fillMaxWidth(0.7f),
             text = textToShow,
@@ -97,7 +98,7 @@ class PermissionsFragment: Fragment(R.layout.fragment_compose) {
         modifier: Modifier,
         permission: String,
         permissionState: PermissionState
-    ){
+    ) {
         val permissionStatus = permissionState.status
         val textToShow = if (permissionStatus.shouldShowRationale) {
             // If the user has denied the permission but the rationale can be shown,
@@ -113,7 +114,7 @@ class PermissionsFragment: Fragment(R.layout.fragment_compose) {
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+        ) {
             ContentText(textToShow = textToShow)
             Button(
                 onClick = permissionState::launchPermissionRequest,
@@ -127,24 +128,25 @@ class PermissionsFragment: Fragment(R.layout.fragment_compose) {
         }
     }
 
-
-    private fun checkPermission(context: Context, permission: String = Manifest.permission.CAMERA){
+    private fun checkPermission(context: Context, permission: String = Manifest.permission.CAMERA) {
         val selfPermission = ContextCompat.checkSelfPermission(context, permission)
         when {
             selfPermission == PackageManager.PERMISSION_GRANTED -> {
                 // Granted
             }
+
             shouldShowRequestPermissionRationale(permission) -> {
                 // showRationale() // Confused
             }
+
             else -> {
                 // Denied/PermanentlyDenied
-                //requestPermission()
+                // requestPermission()
             }
         }
     }
 
-    private fun requestPermission(permission: String){
+    private fun requestPermission(permission: String) {
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->

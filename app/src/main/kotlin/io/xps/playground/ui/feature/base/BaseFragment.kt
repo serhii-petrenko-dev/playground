@@ -15,7 +15,7 @@ import io.xps.playground.ui.composables.BaseColumn
 import io.xps.playground.ui.theme.PlaygroundTheme
 
 @AndroidEntryPoint
-class BaseFragment: Fragment(R.layout.fragment_compose) {
+class BaseFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<BaseViewModel>()
@@ -35,13 +35,12 @@ class BaseFragment: Fragment(R.layout.fragment_compose) {
     @Composable
     fun BaseScreen() {
         BaseColumn {
-
         }
     }
 
     @Preview
     @Composable
-    fun Preview(){
+    fun Preview() {
         BaseScreen()
     }
 }

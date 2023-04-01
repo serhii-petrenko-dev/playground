@@ -10,7 +10,7 @@ import logcat.AndroidLogcatLogger
 import logcat.LogPriority
 
 @HiltAndroidApp
-class App: Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -28,7 +28,7 @@ class App: Application() {
 
         var simpleCacheInstance: SimpleCache? = null
 
-        fun logScreenView(screenName: String){
+        fun logScreenView(screenName: String) {
             analytics.logEvent(
                 FirebaseAnalytics.Event.SCREEN_VIEW,
                 bundleOf(FirebaseAnalytics.Param.SCREEN_NAME to screenName)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.xps.playground.ui.feature.multicam
+package io.xps.playground.ui.feature.multiCam
 
 import android.content.Context
 import android.util.AttributeSet
@@ -25,9 +25,9 @@ import android.view.View
  * A [TextureView] that can be adjusted to a specified aspect ratio.
  */
 class AutoFitTextureView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyle: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
 ) : TextureView(context, attrs, defStyle) {
 
     private var ratioWidth = 0
@@ -64,5 +64,4 @@ class AutoFitTextureView @JvmOverloads constructor(
             }
         }
     }
-
 }

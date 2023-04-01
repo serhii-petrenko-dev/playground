@@ -9,7 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InputsViewModel @Inject constructor(
     private val navigationDispatcher: NavigationDispatcher,
-    private val handle: SavedStateHandle,
+    private val handle: SavedStateHandle
 ) : ViewModel() {
 
     private val transformationKey = "transformation"
@@ -18,5 +18,4 @@ class InputsViewModel @Inject constructor(
     fun input(textWithTransformation: String) {
         handle[transformationKey] = textWithTransformation
     }
-
 }

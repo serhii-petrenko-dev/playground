@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager.worker
+package io.xps.playground.ui.feature.workManager.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker

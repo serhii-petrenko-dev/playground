@@ -2,7 +2,11 @@ package io.xps.playground.ui.feature.overlay
 
 import android.os.Bundle
 import android.view.View
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,7 +24,7 @@ import io.xps.playground.ui.theme.PlaygroundTheme
 import kotlin.random.Random
 
 @AndroidEntryPoint
-class OverlayFragment: Fragment(R.layout.fragment_compose) {
+class OverlayFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
 

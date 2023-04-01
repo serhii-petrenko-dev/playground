@@ -111,7 +111,7 @@
 
     <fragment
         android:id="@+id/fragmentMultipleCamera"
-        android:name="io.xps.playground.ui.feature.multicam.MultipleCameraFragment"
+        android:name="io.xps.playground.ui.feature.multiCam.MultipleCameraFragment"
         tools:layout="@layout/fragment_compose"/>
 
     <fragment
@@ -121,22 +121,22 @@
 
     <fragment
         android:id="@+id/fragmentFileSystem"
-        android:name="io.xps.playground.ui.feature.filesystem.FileSystemFragment"
+        android:name="io.xps.playground.ui.feature.fileSystem.FileSystemFragment"
         tools:layout="@layout/fragment_compose"/>
 
     <fragment
         android:id="@+id/fragmentWorkManager"
-        android:name="io.xps.playground.ui.feature.workmanager.WorkManagerFragment"
+        android:name="io.xps.playground.ui.feature.workManager.WorkManagerFragment"
         tools:layout="@layout/fragment_compose"/>
 
     <fragment
         android:id="@+id/fragmentLanguagePicker"
-        android:name="io.xps.playground.ui.feature.languagepicker.LanguageFragment"
+        android:name="io.xps.playground.ui.feature.languagePicker.LanguageFragment"
         tools:layout="@layout/fragment_compose"/>
 
     <fragment
         android:id="@+id/fragmentImagePicker"
-        android:name="io.xps.playground.ui.feature.imagepicker.ImagePickerFragment"
+        android:name="io.xps.playground.ui.feature.imagePicker.ImagePickerFragment"
         tools:layout="@layout/fragment_compose"/>
 
     <fragment

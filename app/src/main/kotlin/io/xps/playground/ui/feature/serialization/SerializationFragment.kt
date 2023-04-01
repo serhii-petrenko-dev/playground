@@ -18,7 +18,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
 @AndroidEntryPoint
-class SerializationFragment: Fragment(R.layout.fragment_compose) {
+class SerializationFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
 
@@ -40,7 +40,6 @@ class SerializationFragment: Fragment(R.layout.fragment_compose) {
 
     @Composable
     fun SerializationScreen() {
-
     }
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -54,20 +53,20 @@ class SerializationFragment: Fragment(R.layout.fragment_compose) {
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private fun decodeTest(json: Json){
+    private fun decodeTest(json: Json) {
         Log.d(TAG, "decode test")
 
         Log.d(TAG, "decode CorrectFile ${fromJson<File>(json, fakeCorrectFileJson())}")
 
         try {
             Log.d(TAG, "decode NoIdFile ${fromJson<File>(json, fakeNoIdFileJson())}")
-        } catch (e: MissingFieldException){
-            Log.d(TAG, "decode NoIdFile ${e.message.toString()}")
+        } catch (e: MissingFieldException) {
+            Log.d(TAG, "decode NoIdFile ${e.message}")
         }
         try {
             Log.d(TAG, "decode NullIdFile ${fromJson<File>(json, fakeNullIdFileJson())}")
-        } catch (e: MissingFieldException){
-            Log.d(TAG, "decode NullIdFile ${e.message.toString()}")
+        } catch (e: MissingFieldException) {
+            Log.d(TAG, "decode NullIdFile ${e.message}")
         }
 
         Log.d(TAG, "decode NoNameFile ${fromJson<File>(json, fakeNoNameFileJson())}")
@@ -80,19 +79,22 @@ class SerializationFragment: Fragment(R.layout.fragment_compose) {
 
         try {
             Log.d(TAG, "decode WrongSizeType ${fromJson<File>(json, fakeWrongSizeTypeFileJson())}")
-        } catch (e: SerializationException){
-            Log.d(TAG, "decode WrongSizeType ${e.message.toString()}")
+        } catch (e: SerializationException) {
+            Log.d(TAG, "decode WrongSizeType ${e.message}")
         }
 
         Log.d(TAG, "decode NoTypeFile ${fromJson<File>(json, fakeNoTypeFileJson())}")
-        Log.d(TAG, "decode SerialNameTypeFile ${fromJson<File>(json, fakeSerialNameTypeFileJson())}")
+        Log.d(
+            TAG,
+            "decode SerialNameTypeFile ${fromJson<File>(json, fakeSerialNameTypeFileJson())}"
+        )
         Log.d(TAG, "decode UnknownTypeFile ${fromJson<File>(json, fakeUnknownTypeFileJson())}")
     }
 
-    private fun encodeTest(json: Json){
+    private fun encodeTest(json: Json) {
         Log.d(TAG, "encode test")
 
-        val file0 = fromJson<File>(json,fakeCorrectFileJson())
+        val file0 = fromJson<File>(json, fakeCorrectFileJson())
         Log.d(TAG, "encode CorrectFile ${file0.toJson(json)}")
 
         val file1 = fromJson<File>(json, fakeNoNameFileJson())

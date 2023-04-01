@@ -14,12 +14,13 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("ktlint:experimental:property-naming")
 private val Context.getDataStore by preferencesDataStore(name = "PlaygroundStore")
 
 @Singleton
 class DataStoreManagerImpl @Inject constructor(
     @ApplicationContext val context: Context
-): DataStoreManager {
+) : DataStoreManager {
 
     private val dataStore = context.getDataStore
 
@@ -27,7 +28,9 @@ class DataStoreManagerImpl @Inject constructor(
         dataStore.edit { preferences ->
             if (uri != null) {
                 preferences[PreferencesKeys.IMAGE_URI] = uri
-            } else preferences.remove(PreferencesKeys.IMAGE_URI)
+            } else {
+                preferences.remove(PreferencesKeys.IMAGE_URI)
+            }
         }
     }
 
@@ -45,5 +48,4 @@ class DataStoreManagerImpl @Inject constructor(
     private object PreferencesKeys {
         val IMAGE_URI = stringPreferencesKey("image_uri")
     }
-
 }

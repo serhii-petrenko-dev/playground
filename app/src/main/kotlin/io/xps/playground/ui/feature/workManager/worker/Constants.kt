@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager.worker
+package io.xps.playground.ui.feature.workManager.worker
 
 const val IMAGE_BLUR_WORK = "image_blur_work"
 const val WORK_TAG_OUTPUT = "output"

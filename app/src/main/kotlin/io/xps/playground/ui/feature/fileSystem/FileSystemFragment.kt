@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.filesystem
+package io.xps.playground.ui.feature.fileSystem
 
 import android.content.Context
 import android.content.Intent
@@ -50,7 +50,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
-class FileSystemFragment: Fragment(R.layout.fragment_compose) {
+class FileSystemFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<FileSystemViewModel>()
@@ -72,7 +72,7 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
     }
 
     private fun queryFreeSpace(internalStorage: Boolean): Pair<Long, Long> {
-        val storageDirectory = if(internalStorage) {
+        val storageDirectory = if (internalStorage) {
             Environment.getDataDirectory()
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.getStorageDirectory()
@@ -94,9 +94,8 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
         return array
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun allocateFreeSpace(context: Context, mb: Float){
+    private fun allocateFreeSpace(context: Context, mb: Float) {
         val bytesNeeded = (1024 * 1024 * mb).toLong()
         val storageManager = context.getSystemService<StorageManager>()!!
         val appSpecificInternalDirUuid: UUID = storageManager.getUuidForPath(context.filesDir)
@@ -178,7 +177,7 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
         }
     }
 
-    //TODO Write Actual Test
+    // TODO Write Actual Test
     @Composable
     fun AccessTestItem(tittle: String, target: File) {
         Text(
@@ -193,15 +192,16 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
                     width = 4.dp,
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(12)
-                ).padding(16.dp),
+                )
+                .padding(16.dp)
         ) {
-            val start = remember { mutableStateOf(false)}
+            val start = remember { mutableStateOf(false) }
             AnimatedVisibility(
                 visible = start.value,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                Column{
+                Column {
                     ActionItem("Write", ActionItemState.Success("k12h3jkh31kjh21kj1321"))
                     ActionItem("Read", ActionItemState.Error("k12h3jkh31kjh21kj1321"))
                 }
@@ -222,12 +222,12 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
             }
         }
     }
-    
+
     @Composable
-    fun ActionItem(tittle: String, state: ActionItemState){
+    fun ActionItem(tittle: String, state: ActionItemState) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(vertical = 8.dp)
         ) {
             Column {
                 Text(
@@ -235,13 +235,14 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
                     text = tittle,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                when(state){
+                when (state) {
                     is ActionItemState.Success -> {
                         Text(
                             text = state.message,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
+
                     is ActionItemState.Error -> {
                         Text(
                             text = state.error,
@@ -252,7 +253,7 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            when(state){
+            when (state) {
                 is ActionItemState.Success -> {
                     Image(
                         modifier = Modifier.size(30.dp),
@@ -260,6 +261,7 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
                         contentDescription = null
                     )
                 }
+
                 is ActionItemState.Error -> {
                     Image(
                         modifier = Modifier.size(30.dp),
@@ -268,15 +270,15 @@ class FileSystemFragment: Fragment(R.layout.fragment_compose) {
                     )
                 }
                 is ActionItemState.Loading -> {
-                    CircularProgressIndicator(modifier = Modifier) 
+                    CircularProgressIndicator(modifier = Modifier)
                 }
             }
         }
     }
-    
+
     sealed class ActionItemState {
-        data class Success(val message: String): ActionItemState()
-        data class Error(val error: String): ActionItemState()
-        object Loading: ActionItemState()
+        data class Success(val message: String) : ActionItemState()
+        data class Error(val error: String) : ActionItemState()
+        object Loading : ActionItemState()
     }
 }

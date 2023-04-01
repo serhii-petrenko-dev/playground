@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.languagepicker
+package io.xps.playground.ui.feature.languagePicker
 
 import android.os.Bundle
 import android.view.View
@@ -30,7 +30,7 @@ import io.xps.playground.ui.composables.FixInAppLanguageSwitchLayoutDirection
 import io.xps.playground.ui.composables.ListItem
 import io.xps.playground.ui.composables.ScreenTittle
 import io.xps.playground.ui.theme.PlaygroundTheme
-import java.util.*
+import java.util.Locale
 
 val LANGUAGES: List<LanguageItem> = listOf(
     LanguageItem(R.string.system_default, R.drawable.ic_text_fields, ""),
@@ -39,7 +39,7 @@ val LANGUAGES: List<LanguageItem> = listOf(
 )
 
 @AndroidEntryPoint
-class LanguageFragment: Fragment(R.layout.fragment_compose) {
+class LanguageFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
 
@@ -70,10 +70,10 @@ class LanguageFragment: Fragment(R.layout.fragment_compose) {
     fun BaseScreen(
         currentLocale: Locale?,
         languages: List<LanguageItem>,
-        onClick: (LanguageItem) -> Unit,
+        onClick: (LanguageItem) -> Unit
     ) = FixInAppLanguageSwitchLayoutDirection {
         Surface {
-            BaseColumn() {
+            BaseColumn {
                 ScreenTittle(
                     modifier = Modifier
                         .align(Start)

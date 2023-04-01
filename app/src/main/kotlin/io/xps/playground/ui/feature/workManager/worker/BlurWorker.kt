@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager.worker
+package io.xps.playground.ui.feature.workManager.worker
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -32,7 +32,8 @@ class BlurWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
 
             val resolver = appContext.contentResolver
             val picture = BitmapFactory.decodeStream(
-                resolver.openInputStream(Uri.parse(resourceUri)))
+                resolver.openInputStream(Uri.parse(resourceUri))
+            )
             val output = blurBitmap(picture, appContext)
 
             val outputUri = writeBitmapToFile(appContext, output)

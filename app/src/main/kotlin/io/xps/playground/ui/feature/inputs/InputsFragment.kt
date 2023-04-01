@@ -32,7 +32,7 @@ import io.xps.playground.tools.viewBinding
 import io.xps.playground.ui.theme.PlaygroundTheme
 
 @AndroidEntryPoint
-class InputsFragment: Fragment(R.layout.fragment_compose) {
+class InputsFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<InputsViewModel>()
@@ -51,9 +51,7 @@ class InputsFragment: Fragment(R.layout.fragment_compose) {
     }
 
     @Composable
-    fun InputsScreen(
-        textWithTransformation: String
-    ) {
+    fun InputsScreen(textWithTransformation: String) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -86,7 +84,7 @@ class InputsFragment: Fragment(R.layout.fragment_compose) {
         override fun filter(text: AnnotatedString): TransformedText {
             var result = ""
             text.forEachIndexed { i, s ->
-                when(i){
+                when (i) {
                     4 -> result += "-$s"
                     8 -> result += "-$s"
                     else -> result += s
@@ -106,10 +104,10 @@ class InputsFragment: Fragment(R.layout.fragment_compose) {
                 }
             }
 
-           return TransformedText(
-               text = AnnotatedString(result),
-               offsetMapping = creditCardOffsetMapping
-           )
+            return TransformedText(
+                text = AnnotatedString(result),
+                offsetMapping = creditCardOffsetMapping
+            )
         }
     }
 
@@ -144,10 +142,7 @@ class InputsFragment: Fragment(R.layout.fragment_compose) {
     }
 
     @Composable
-    private fun CharView(
-        index: Int,
-        text: String
-    ) {
+    private fun CharView(index: Int, text: String) {
         val isFocused = text.length == index
         val char = when {
             index == text.length -> "0"
@@ -158,10 +153,12 @@ class InputsFragment: Fragment(R.layout.fragment_compose) {
             modifier = Modifier
                 .width(40.dp)
                 .border(
-                    1.dp, when {
+                    1.dp,
+                    when {
                         isFocused -> Color.DarkGray
                         else -> Color.LightGray
-                    }, RoundedCornerShape(8.dp)
+                    },
+                    RoundedCornerShape(8.dp)
                 )
                 .padding(2.dp),
             text = char,
@@ -175,4 +172,3 @@ class InputsFragment: Fragment(R.layout.fragment_compose) {
         )
     }
 }
-

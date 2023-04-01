@@ -90,7 +90,9 @@ class MediaPlayer(private val context: Context) : DefaultLifecycleObserver {
     ): RenderersFactory {
         val extensionRendererMode = if (preferExtensionRenderer) {
             DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-        } else DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF
+        } else {
+            DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF
+        }
         return DefaultRenderersFactory(context.applicationContext)
             .setExtensionRendererMode(extensionRendererMode)
     }

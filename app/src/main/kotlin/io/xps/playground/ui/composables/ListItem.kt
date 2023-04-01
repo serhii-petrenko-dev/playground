@@ -3,7 +3,11 @@ package io.xps.playground.ui.composables
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,7 +26,7 @@ fun ListItem(
     @DrawableRes drawable: Int,
     isSelected: Boolean,
     onClick: () -> Unit
-){
+) {
     Row(
         modifier = Modifier
             .clickable { onClick() }
@@ -41,9 +45,9 @@ fun ListItem(
         ) {
             Text(
                 text = tittle,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium
             )
-            if(hint.isNotBlank()){
+            if (hint.isNotBlank()) {
                 Text(
                     modifier = Modifier.alpha(0.7f),
                     text = hint,

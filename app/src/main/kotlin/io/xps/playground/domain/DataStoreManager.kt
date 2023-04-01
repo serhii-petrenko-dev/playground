@@ -7,5 +7,4 @@ interface DataStoreManager {
     suspend fun storeUri(uri: String?)
 
     fun getUri(): Flow<String?>
-
 }

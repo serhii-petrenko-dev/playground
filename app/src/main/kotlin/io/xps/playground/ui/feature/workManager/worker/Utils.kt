@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager.worker
+package io.xps.playground.ui.feature.workManager.worker
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -35,11 +35,11 @@ fun makeStatusNotification(message: String, context: Context) {
     }
 
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(NOTIFICATION_TITLE)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setVibrate(LongArray(0))
+        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setContentTitle(NOTIFICATION_TITLE)
+        .setContentText(message)
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setVibrate(LongArray(0))
 
     NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
 }
@@ -85,7 +85,6 @@ fun writeBitmapToFile(applicationContext: Context, bitmap: Bitmap): Uri {
                 it.close()
             } catch (ignore: IOException) {
             }
-
         }
     }
     return Uri.fromFile(outputFile)

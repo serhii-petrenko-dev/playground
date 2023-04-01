@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.imagepicker
+package io.xps.playground.ui.feature.imagePicker
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -31,5 +31,4 @@ class ImagePickerViewModel @Inject constructor(private val repo: ContentRepo) : 
             _persistMediaAccess.update { persist }
         }
     }
-
 }

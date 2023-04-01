@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ScreenTittle(modifier: Modifier = Modifier, text: String){
+fun ScreenTittle(modifier: Modifier = Modifier, text: String) {
     Text(
         modifier = modifier.padding(
             top = 136.dp,

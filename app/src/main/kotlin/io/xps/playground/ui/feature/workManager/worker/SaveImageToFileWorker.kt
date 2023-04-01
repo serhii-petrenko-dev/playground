@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager.worker
+package io.xps.playground.ui.feature.workManager.worker
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -10,7 +10,8 @@ import androidx.work.workDataOf
 import kotlinx.coroutines.delay
 import logcat.logcat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class SaveImageToFileWorker(
     context: Context,
@@ -31,9 +32,14 @@ class SaveImageToFileWorker(
         return try {
             val resourceUri = inputData.getString(KEY_IMAGE_URI)
             val bitmap = BitmapFactory.decodeStream(
-                resolver.openInputStream(Uri.parse(resourceUri)))
+                resolver.openInputStream(Uri.parse(resourceUri))
+            )
             val imageUrl = MediaStore.Images.Media.insertImage(
-                resolver, bitmap, title, dateFormatter.format(Date()))
+                resolver,
+                bitmap,
+                title,
+                dateFormatter.format(Date())
+            )
             if (!imageUrl.isNullOrEmpty()) {
                 val output = workDataOf(KEY_IMAGE_URI to imageUrl)
                 Result.success(output)

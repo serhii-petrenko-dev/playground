@@ -16,7 +16,7 @@ fun Context.getActivity(): AppCompatActivity? = when (this) {
     else -> null
 }
 
-fun Context.vibrate(duration: Long = 100L){
+fun Context.vibrate(duration: Long = 100L) {
     val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager =
             getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
@@ -34,10 +34,10 @@ fun Context.vibrate(duration: Long = 100L){
     }
 }
 
-fun Context.toast(@StringRes resId: Int){
+fun Context.toast(@StringRes resId: Int) {
     Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show()
 }
 
-fun Context.toast(text: String){
+fun Context.toast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

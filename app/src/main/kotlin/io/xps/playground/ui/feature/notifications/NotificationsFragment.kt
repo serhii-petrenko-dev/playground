@@ -20,7 +20,7 @@ import io.xps.playground.ui.composables.BaseColumn
 import io.xps.playground.ui.theme.PlaygroundTheme
 
 @AndroidEntryPoint
-class NotificationsFragment: Fragment(R.layout.fragment_compose) {
+class NotificationsFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<NotificationsViewModel>()
@@ -46,7 +46,6 @@ class NotificationsFragment: Fragment(R.layout.fragment_compose) {
     fun NotificationsScreen() {
         BaseColumn {
             Surface(modifier = Modifier.fillMaxSize()) {
-
             }
         }
     }

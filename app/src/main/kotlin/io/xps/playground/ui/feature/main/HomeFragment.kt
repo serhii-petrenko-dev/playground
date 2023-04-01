@@ -35,7 +35,7 @@ import io.xps.playground.ui.theme.PlaygroundTheme
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment: Fragment(R.layout.fragment_compose) {
+class HomeFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<HomeViewModel>()
@@ -82,8 +82,8 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                             enter = expandVertically(),
                             exit = shrinkVertically()
                         ) {
-                            if(!keyboardIsOpen.value) {
-                                LaunchedEffect(scope){
+                            if (!keyboardIsOpen.value) {
+                                LaunchedEffect(scope) {
                                     scope.launch {
                                         scrollState.animateScrollToItem(0)
                                     }
@@ -132,7 +132,7 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
     }
 
     @Composable
-    fun DestinationItem(destination: Destination, onClick: (Destination) -> Unit){
+    fun DestinationItem(destination: Destination, onClick: (Destination) -> Unit) {
         Row(
             modifier = Modifier
                 .clickable { onClick(destination) }
@@ -150,21 +150,21 @@ class HomeFragment: Fragment(R.layout.fragment_compose) {
                 painter = painterResource(id = destination.drawableRes),
                 contentDescription = null
             )
-           Column(
-               verticalArrangement = Arrangement.Center
-           ) {
-               Text(
-                   text = stringResource(id = destination.name),
-                   style = MaterialTheme.typography.bodyMedium,
-               )
-               if(destination.hint.isNotBlank()){
-                   Text(
-                       modifier = Modifier.alpha(0.7f),
-                       text = stringResource(id = destination.name),
-                       style = MaterialTheme.typography.bodySmall
-                   )
-               }
-           }
+            Column(
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(id = destination.name),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                if (destination.hint.isNotBlank()) {
+                    Text(
+                        modifier = Modifier.alpha(0.7f),
+                        text = stringResource(id = destination.name),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
         }
     }
 }

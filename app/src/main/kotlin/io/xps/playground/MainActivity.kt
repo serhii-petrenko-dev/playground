@@ -45,13 +45,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigation() {
-        (supportFragmentManager.findFragmentById(R.id.fragmentHost) as NavHostFragment).also { navHost ->
-            val navInflater = navHost.navController.navInflater
-            val navGraph = navInflater.inflate(R.navigation.main_graph)
-            navHost.navController.graph = navGraph
-            navController = navHost.navController
-            navController.addOnDestinationChangedListener(destinationChangedListener)
-        }
+        val host = supportFragmentManager.findFragmentById(R.id.fragmentHost) as NavHostFragment
+        val navInflater = host.navController.navInflater
+        val navGraph = navInflater.inflate(R.navigation.main_graph)
+        host.navController.graph = navGraph
+        navController = host.navController
+        navController.addOnDestinationChangedListener(changeListener)
     }
 
     private suspend fun observeNavigationCommands() {
@@ -60,9 +59,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        when(destination.id) {
-            else -> { /* Do something */ }
+    private val changeListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+        when (destination.id) {
+            else -> {
+                // Do something
+            }
         }
     }
 }

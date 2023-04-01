@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:max-line-length")
+
 package io.xps.playground.data
 
 import io.xps.playground.domain.VideoItem
@@ -54,6 +56,6 @@ object FakeData {
             10,
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg"
-        ),
+        )
     )
 }

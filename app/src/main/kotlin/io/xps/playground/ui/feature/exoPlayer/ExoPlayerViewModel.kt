@@ -42,5 +42,4 @@ class ExoPlayerViewModel @Inject constructor() : ViewModel() {
         object Previous : ScreenEvent()
         object Next : ScreenEvent()
     }
-
 }

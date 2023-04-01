@@ -31,15 +31,15 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 
     init {
         fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            val viewLifecycleOwnerLiveDataObserver =
-                Observer<LifecycleOwner?> {
-                    val viewLifecycleOwner = it ?: return@Observer
-                    viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
-                        override fun onDestroy(owner: LifecycleOwner) {
-                            binding = null
-                        }
-                    })
-                }
+            @Suppress("ktlint:experimental:property-naming")
+            val viewLifecycleOwnerLiveDataObserver = Observer<LifecycleOwner?> {
+                val viewLifecycleOwner = it ?: return@Observer
+                viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                    override fun onDestroy(owner: LifecycleOwner) {
+                        binding = null
+                    }
+                })
+            }
 
             override fun onCreate(owner: LifecycleOwner) {
                 App.logScreenView(fragment.TAG)
@@ -64,7 +64,9 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 
         val lifecycle = fragment.viewLifecycleOwner.lifecycle
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-            throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
+            throw IllegalStateException(
+                "Should not attempt to get bindings when Fragment views are destroyed."
+            )
         }
 
         return viewBindingFactory(thisRef.requireView()).also { this.binding = it }

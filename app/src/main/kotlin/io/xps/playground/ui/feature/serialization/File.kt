@@ -17,6 +17,7 @@ data class File(
     enum class Type {
         TEXT,
         PDF,
+
         @SerialName("executable")
         EXE
     }

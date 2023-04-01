@@ -25,5 +25,4 @@ object AppModule {
     fun provideDataStore(@ApplicationContext appContext: Context): DataStoreManager {
         return DataStoreManagerImpl(appContext)
     }
-
 }

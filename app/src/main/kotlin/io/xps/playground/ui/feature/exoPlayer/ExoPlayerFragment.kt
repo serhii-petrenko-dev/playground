@@ -40,7 +40,7 @@ import io.xps.playground.ui.composables.BaseColumn
 import io.xps.playground.ui.theme.PlaygroundTheme
 
 @AndroidEntryPoint
-class ExoPlayerFragment: Fragment(R.layout.fragment_compose) {
+class ExoPlayerFragment : Fragment(R.layout.fragment_compose) {
 
     private val binding by viewBinding(FragmentComposeBinding::bind)
     private val viewModel by viewModels<ExoPlayerViewModel>()
@@ -147,13 +147,17 @@ class ExoPlayerFragment: Fragment(R.layout.fragment_compose) {
                         items = videos,
                         key = { _: Int, item: VideoItem ->
                             item.id
-                        },
+                        }
                     ) { index: Int, _: VideoItem ->
-                        if(index == activeItem){
+                        if (index == activeItem) {
                             VideoItem(player)
-                        } else Box(
-                            modifier = Modifier.fillParentMaxWidth().height(100.dp)
-                        )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                                    .height(100.dp)
+                            )
+                        }
                     }
                 }
 
@@ -168,11 +172,11 @@ class ExoPlayerFragment: Fragment(R.layout.fragment_compose) {
                         contentPadding = PaddingValues(20.dp),
                         onClick = nextClick,
                         content = {
-                           Image(
-                               modifier = Modifier.fillMaxSize(),
-                               painter = painterResource(id = R.drawable.ic_arrow),
-                               contentDescription = ""
-                           )
+                            Image(
+                                modifier = Modifier.fillMaxSize(),
+                                painter = painterResource(id = R.drawable.ic_arrow),
+                                contentDescription = ""
+                            )
                         }
                     )
 
@@ -200,7 +204,7 @@ class ExoPlayerFragment: Fragment(R.layout.fragment_compose) {
     }
 
     @Composable
-    fun LazyItemScope.VideoItem(player: Player){
+    fun LazyItemScope.VideoItem(player: Player) {
         val isPlayerUiVisible = remember { mutableStateOf(false) }
         Box(
             modifier = Modifier.fillParentMaxWidth(),
@@ -223,7 +227,11 @@ class ExoPlayerFragment: Fragment(R.layout.fragment_compose) {
     ) {
         val context = LocalContext.current
         val playerView = remember {
-            val layout = LayoutInflater.from(context).inflate(R.layout.video_player, binding.root, false)
+            val layout = LayoutInflater.from(context).inflate(
+                R.layout.video_player,
+                binding.root,
+                false
+            )
             val playerView = layout.findViewById(R.id.playerView) as StyledPlayerView
             playerView.apply {
                 setControllerVisibilityListener(
@@ -236,7 +244,7 @@ class ExoPlayerFragment: Fragment(R.layout.fragment_compose) {
 
         playerView.player = mediaPlayer
 
-        AndroidView (
+        AndroidView(
             { playerView },
             Modifier
                 .height(256.dp)

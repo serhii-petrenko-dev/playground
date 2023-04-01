@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.multicam
+package io.xps.playground.ui.feature.multiCam
 
 import android.Manifest
 import android.content.Context
@@ -27,7 +27,7 @@ import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
+class MultipleCameraFragment : Fragment(R.layout.fragment_multiple_cam) {
 
     private val binding by viewBinding(FragmentMultipleCamBinding::bind)
     private val viewModel by viewModels<MultipleCameraViewModel>()
@@ -51,7 +51,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
      * A [Handler] for running tasks in the background.
      */
     private var backgroundHandlerRear: Handler? = null
-
 
     /**
      * An [ImageReader] that handles still image capture.
@@ -142,6 +141,7 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
      * [CaptureRequest.Builder] for the camera preview
      */
     private lateinit var previewRequestBuilderRear: CaptureRequest.Builder
+
     /**
      * Whether the current camera device supports Flash or not.
      */
@@ -157,7 +157,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
      */
     private lateinit var previewRequestRear: CaptureRequest
 
-
     /**
      * This a callback object for the [ImageReader]. "onImageAvailable" will be called when a
      * still image is ready to be saved.
@@ -166,7 +165,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
 //        backgroundHandler?.post(ImageSaver(it.acquireNextImage(), file))
         Log.d(TAG, "onImageAvailableListenerFront Called")
     }
-
 
     /**
      * This a callback object for the [ImageReader]. "onImageAvailable" will be called when a
@@ -177,36 +175,33 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         Log.d(TAG, "onImageAvailableListener Called")
     }
 
-
     /**
      * A [CameraCaptureSession.CaptureCallback] that handles events related to JPEG capture.
      */
     private val captureCallback = object : CameraCaptureSession.CaptureCallback() {
 
         private fun process(result: CaptureResult) {
-
         }
 
         private fun capturePicture(result: CaptureResult) {
-
         }
 
-        override fun onCaptureProgressed(session: CameraCaptureSession,
-                                         request: CaptureRequest,
-                                         partialResult: CaptureResult
+        override fun onCaptureProgressed(
+            session: CameraCaptureSession,
+            request: CaptureRequest,
+            partialResult: CaptureResult
         ) {
             process(partialResult)
         }
 
-        override fun onCaptureCompleted(session: CameraCaptureSession,
-                                        request: CaptureRequest,
-                                        result: TotalCaptureResult
+        override fun onCaptureCompleted(
+            session: CameraCaptureSession,
+            request: CaptureRequest,
+            result: TotalCaptureResult
         ) {
             process(result)
         }
-
     }
-
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on the front camera's
@@ -225,7 +220,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         override fun onSurfaceTextureDestroyed(texture: SurfaceTexture) = true
 
         override fun onSurfaceTextureUpdated(texture: SurfaceTexture) = Unit
-
     }
 
     /**
@@ -245,7 +239,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         override fun onSurfaceTextureDestroyed(texture: SurfaceTexture) = true
 
         override fun onSurfaceTextureUpdated(texture: SurfaceTexture) = Unit
-
     }
 
     /**
@@ -269,7 +262,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             onDisconnected(cameraDevice)
             this@MultipleCameraFragment.activity?.finish()
         }
-
     }
 
     /**
@@ -293,7 +285,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             onDisconnected(cameraDevice)
             this@MultipleCameraFragment.activity?.finish()
         }
-
     }
 
 /*
@@ -309,9 +300,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         textureViewFront = binding.texture1
         textureViewRear = binding.texture2
     }
-
-
-
 
     override fun onResume() {
         super.onResume()
@@ -343,7 +331,9 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
      * Opens front camera specified by [Camera2BasicFragment.cameraId].
      */
     private fun openCameraFront(width: Int, height: Int) {
-        val permission = activity?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
+        val permission = activity?.let {
+            ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA)
+        }
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
             return
@@ -362,14 +352,15 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera opening.", e)
         }
-
     }
 
     /**
      * Opens rear camera specified by [Camera2BasicFragment.cameraId].
      */
     private fun openCameraRear(width: Int, height: Int) {
-        val permission = activity?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
+        val permission = activity?.let {
+            ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA)
+        }
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
             return
@@ -388,9 +379,7 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera opening.", e)
         }
-
     }
-
 
     private fun requestCameraPermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
@@ -415,28 +404,42 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
                 // We don't use a front facing camera in this sample.
                 val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
                 if (cameraDirection != null &&
-                    cameraDirection == CameraCharacteristics.LENS_FACING_BACK) {
+                    cameraDirection == CameraCharacteristics.LENS_FACING_BACK
+                ) {
                     continue
                 }
 
                 val map = characteristics.get(
-                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: continue
+                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+                ) ?: continue
 
                 // For still image captures, we use the largest available size.
                 val aspectRatio = Collections.max(
                     Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)),
-                    CompareSizesByViewAspectRatio(textureViewFront.height, textureViewFront.width))
-                imageReaderFront = ImageReader.newInstance(aspectRatio.width, aspectRatio.height,
-                    ImageFormat.JPEG, /*maxImages*/ 2).apply {
-                    setOnImageAvailableListener(onImageAvailableListenerFront, backgroundHandlerFront)
+                    CompareSizesByViewAspectRatio(textureViewFront.height, textureViewFront.width)
+                )
+                imageReaderFront = ImageReader.newInstance(
+                    aspectRatio.width,
+                    aspectRatio.height,
+                    ImageFormat.JPEG, // maxImages
+                    2
+                ).apply {
+                    setOnImageAvailableListener(
+                        onImageAvailableListenerFront,
+                        backgroundHandlerFront
+                    )
                 }
 
-                Log.d(TAG, "selected aspect ratio " + aspectRatio.height  + "x" + aspectRatio.width + " : " + aspectRatio.height/aspectRatio.width)
+                val message = "selected aspect ratio " + aspectRatio.height + "x" +
+                        aspectRatio.width + " : " + aspectRatio.height / aspectRatio.width
+                Log.d(TAG, message)
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.
                 val displayRotation = activity!!.windowManager.defaultDisplay.rotation
 
-                sensorOrientationFront = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)!!
+                sensorOrientationFront = characteristics.get(
+                    CameraCharacteristics.SENSOR_ORIENTATION
+                )!!
                 val swappedDimensions = areDimensionsSwappedFront(displayRotation)
 
                 val displaySize = Point()
@@ -452,11 +455,14 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
                 // Danger, W.R.! Attempting to use too large a preview size could exceed the camera
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
                 // garbage capture data.
-                previewSizeFront = chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
-                    rotatedPreviewWidth, rotatedPreviewHeight,
-                    maxPreviewWidth, maxPreviewHeight,
-                    aspectRatio)
-
+                previewSizeFront = chooseOptimalSize(
+                    map.getOutputSizes(SurfaceTexture::class.java),
+                    rotatedPreviewWidth,
+                    rotatedPreviewHeight,
+                    maxPreviewWidth,
+                    maxPreviewHeight,
+                    aspectRatio
+                )
 
                 /*
                  * We are filling the whole view with camera preview, on a downside, this distorts
@@ -485,7 +491,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             ErrorDialog.newInstance(getString(R.string.camera_error))
                 .show(childFragmentManager, FRAGMENT_DIALOG)
         }
-
     }
 
     /**
@@ -494,8 +499,8 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
     private fun closeCameraFront() {
         try {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
-                captureSessionFront?.stopRepeating();
-                captureSessionFront?.abortCaptures();
+                captureSessionFront?.stopRepeating()
+                captureSessionFront?.abortCaptures()
             }
 
             cameraOpenCloseLockFront.acquire()
@@ -518,8 +523,8 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
     private fun closeCameraRear() {
         try {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
-                captureSessionRear?.stopRepeating();
-                captureSessionRear?.abortCaptures();
+                captureSessionRear?.stopRepeating()
+                captureSessionRear?.abortCaptures()
             }
             cameraOpenCloseLockRear.acquire()
             captureSessionRear?.close()
@@ -534,6 +539,7 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             cameraOpenCloseLockRear.release()
         }
     }
+
     /**
      * Sets up member variables related to rear camera.
      *
@@ -549,28 +555,39 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
                 // We don't use a front facing camera in this sample.
                 val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
                 if (cameraDirection != null &&
-                    cameraDirection == CameraCharacteristics.LENS_FACING_FRONT) {
+                    cameraDirection == CameraCharacteristics.LENS_FACING_FRONT
+                ) {
                     continue
                 }
 
                 val map = characteristics.get(
-                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: continue
+                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+                ) ?: continue
 
                 // For still image captures, we use the largest available size.
                 val aspectRatio = Collections.max(
                     Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)),
-                    CompareSizesByViewAspectRatio(textureViewRear.height, textureViewRear.width))
-                imageReaderRear = ImageReader.newInstance(aspectRatio.width, aspectRatio.height,
-                    ImageFormat.JPEG, /*maxImages*/ 2).apply {
+                    CompareSizesByViewAspectRatio(textureViewRear.height, textureViewRear.width)
+                )
+                imageReaderRear = ImageReader.newInstance(
+                    aspectRatio.width,
+                    aspectRatio.height,
+                    ImageFormat.JPEG, // maxImages
+                    2
+                ).apply {
                     setOnImageAvailableListener(onImageAvailableListenerRear, backgroundHandlerRear)
                 }
 
-                Log.d(TAG, "selected aspect ratio " + aspectRatio.height  + "x" + aspectRatio.width + " : " + aspectRatio.height/aspectRatio.width)
+                val message = "selected aspect ratio " + aspectRatio.height + "x" +
+                        aspectRatio.width + " : " + aspectRatio.height / aspectRatio.width
+                Log.d(TAG, message)
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.
                 val displayRotation = activity!!.windowManager.defaultDisplay.rotation
 
-                sensorOrientationRear = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)!!
+                sensorOrientationRear = characteristics.get(
+                    CameraCharacteristics.SENSOR_ORIENTATION
+                )!!
                 val swappedDimensions = areDimensionsSwappedRear(displayRotation)
 
                 val displaySize = Point()
@@ -586,11 +603,14 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
                 // Danger, W.R.! Attempting to use too large a preview size could exceed the camera
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
                 // garbage capture data.
-                previewSizeRear = chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
-                    rotatedPreviewWidth, rotatedPreviewHeight,
-                    maxPreviewWidth, maxPreviewHeight,
-                    aspectRatio)
-
+                previewSizeRear = chooseOptimalSize(
+                    map.getOutputSizes(SurfaceTexture::class.java),
+                    rotatedPreviewWidth,
+                    rotatedPreviewHeight,
+                    maxPreviewWidth,
+                    maxPreviewHeight,
+                    aspectRatio
+                )
 
                 /*
                  * We are filling the whole view with camera preview, on a downside, this distorts
@@ -619,10 +639,7 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             ErrorDialog.newInstance(getString(R.string.camera_error))
                 .show(childFragmentManager, FRAGMENT_DIALOG)
         }
-
     }
-
-
 
     /**
      * Configures the necessary [android.graphics.Matrix] transformation to `textureView`.
@@ -637,7 +654,12 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         val rotation = activity!!.windowManager.defaultDisplay.rotation
         val matrix = Matrix()
         val viewRect = RectF(0f, 0f, viewWidth.toFloat(), viewHeight.toFloat())
-        val bufferRect = RectF(0f, 0f, previewSizeFront.height.toFloat(), previewSizeFront.width.toFloat())
+        val bufferRect = RectF(
+            0f,
+            0f,
+            previewSizeFront.height.toFloat(),
+            previewSizeFront.width.toFloat()
+        )
         val centerX = viewRect.centerX()
         val centerY = viewRect.centerY()
 
@@ -645,7 +667,8 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY())
             val scale = Math.max(
                 viewHeight.toFloat() / previewSizeFront.height,
-                viewWidth.toFloat() / previewSizeFront.width)
+                viewWidth.toFloat() / previewSizeFront.width
+            )
             with(matrix) {
                 setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL)
                 postScale(scale, scale, centerX, centerY)
@@ -670,7 +693,12 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         val rotation = activity!!.windowManager.defaultDisplay.rotation
         val matrix = Matrix()
         val viewRect = RectF(0f, 0f, viewWidth.toFloat(), viewHeight.toFloat())
-        val bufferRect = RectF(0f, 0f, previewSizeRear.height.toFloat(), previewSizeRear.width.toFloat())
+        val bufferRect = RectF(
+            0f,
+            0f,
+            previewSizeRear.height.toFloat(),
+            previewSizeRear.width.toFloat()
+        )
         val centerX = viewRect.centerX()
         val centerY = viewRect.centerY()
 
@@ -678,7 +706,8 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY())
             val scale = Math.max(
                 viewHeight.toFloat() / previewSizeRear.height,
-                viewWidth.toFloat() / previewSizeRear.width)
+                viewWidth.toFloat() / previewSizeRear.width
+            )
             with(matrix) {
                 setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL)
                 postScale(scale, scale, centerX, centerY)
@@ -716,7 +745,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         }
         return swappedDimensions
     }
-
 
     /**
      * Determines if the dimensions are swapped given the phone's current rotation.
@@ -772,7 +800,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
         } catch (e: InterruptedException) {
             Log.e(TAG, e.toString())
         }
-
     }
 
     /**
@@ -809,26 +836,30 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
                             // Auto focus should be continuous for camera preview.
                             previewRequestBuilderFront.set(
                                 CaptureRequest.CONTROL_AF_MODE,
-                                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                            )
 
                             // Finally, we start displaying the camera preview.
                             previewRequestFront = previewRequestBuilderFront.build()
-                            captureSessionFront?.setRepeatingRequest(previewRequestFront,
-                                captureCallback, backgroundHandlerFront)
+                            captureSessionFront?.setRepeatingRequest(
+                                previewRequestFront,
+                                captureCallback,
+                                backgroundHandlerFront
+                            )
                         } catch (e: CameraAccessException) {
                             Log.e(TAG, e.toString())
                         }
-
                     }
 
                     override fun onConfigureFailed(session: CameraCaptureSession) {
                         Log.d(TAG, "CaptureSession failed")
                     }
-                }, null)
+                },
+                null
+            )
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())
         }
-
     }
 
     /**
@@ -865,29 +896,32 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
                             // Auto focus should be continuous for camera preview.
                             previewRequestBuilderRear.set(
                                 CaptureRequest.CONTROL_AF_MODE,
-                                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                            )
 
                             // Finally, we start displaying the camera preview.
                             previewRequestRear = previewRequestBuilderRear.build()
-                            captureSessionRear?.setRepeatingRequest(previewRequestRear,
-                                captureCallback, backgroundHandlerRear)
+                            captureSessionRear?.setRepeatingRequest(
+                                previewRequestRear,
+                                captureCallback,
+                                backgroundHandlerRear
+                            )
                         } catch (e: CameraAccessException) {
                             Log.e(TAG, e.toString())
                         }
-
                     }
 
                     override fun onConfigureFailed(session: CameraCaptureSession) {
 //                        activity.showToast("Failed")
                         Log.d(TAG, "CaptureSession failed")
                     }
-                }, null)
+                },
+                null
+            )
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())
         }
-
     }
-
 
     companion object {
 
@@ -914,7 +948,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
          */
         private val MAX_PREVIEW_HEIGHT = 1080
 
-
         /**
          * Given `choices` of `Size`s supported by a camera, choose the smallest one that
          * is at least as large as the respective texture view size, and that is at most as large as
@@ -939,7 +972,6 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             maxHeight: Int,
             aspectRatio: Size
         ): Size {
-
             // Collect the supported resolutions that are at least as big as the preview Surface
             val bigEnough = ArrayList<Size>()
             // Collect the supported resolutions that are smaller than the preview Surface
@@ -948,7 +980,8 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             val h = aspectRatio.height
             for (option in choices) {
                 if (option.width <= maxWidth && option.height <= maxHeight &&
-                    option.height == option.width * h / w) {
+                    option.height == option.width * h / w
+                ) {
                     if (option.width >= textureViewWidth && option.height >= textureViewHeight) {
                         bigEnough.add(option)
                     } else {
@@ -960,9 +993,15 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
             // Pick the smallest of those big enough. If there is no one big enough, pick the
             // largest of those not big enough.
             if (bigEnough.size > 0) {
-                return Collections.min(bigEnough, CompareSizesByViewAspectRatio(textureViewHeight, textureViewWidth))
+                return Collections.min(
+                    bigEnough,
+                    CompareSizesByViewAspectRatio(textureViewHeight, textureViewWidth)
+                )
             } else if (notBigEnough.size > 0) {
-                return Collections.max(notBigEnough, CompareSizesByViewAspectRatio(textureViewHeight, textureViewWidth))
+                return Collections.max(
+                    notBigEnough,
+                    CompareSizesByViewAspectRatio(textureViewHeight, textureViewWidth)
+                )
             } else {
                 Log.e(TAG, "Couldn't find any suitable preview size")
                 return choices[0]
@@ -974,5 +1013,4 @@ class MultipleCameraFragment: Fragment(R.layout.fragment_multiple_cam) {
          */
         private val TAG = MultipleCameraFragment::class.java.simpleName
     }
-
 }

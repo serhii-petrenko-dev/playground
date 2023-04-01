@@ -1,4 +1,4 @@
-package io.xps.playground.ui.feature.workmanager
+package io.xps.playground.ui.feature.workManager
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.xps.playground.R
 import io.xps.playground.tools.NavigationDispatcher
-import io.xps.playground.ui.feature.workmanager.worker.*
+import io.xps.playground.ui.feature.workManager.worker.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -37,17 +37,17 @@ class WorkManagerViewModel @Inject constructor(
     private val _outputUri = MutableStateFlow<Uri?>(null)
     internal val outputUri = _outputUri.asStateFlow()
 
-    fun workStatus(running: Boolean, outputUri: String? = null){
+    fun workStatus(running: Boolean, outputUri: String? = null) {
         _workRunning.value = running
         outputUri?.let { _outputUri.value = Uri.parse(it) }
     }
 
-    fun blurChange(amount: Float){
+    fun blurChange(amount: Float) {
         _blurAmount.value = amount
         applyBlur(amount.roundToInt(), imageUri)
     }
 
-    fun cancel(){
+    fun cancel() {
         workManager.cancelAllWorkByTag(WORK_TAG_OUTPUT)
     }
 
@@ -59,12 +59,11 @@ class WorkManagerViewModel @Inject constructor(
                 OneTimeWorkRequest.from(CleanupWorker::class.java)
             )
 
-        repeat(blurLevel){
+        repeat(blurLevel) {
             val blurRequest = OneTimeWorkRequestBuilder<BlurWorker>()
-            if(it == 0) blurRequest.setInputData(createInputDataForUri(imageUri))
+            if (it == 0) blurRequest.setInputData(createInputDataForUri(imageUri))
             continuation = continuation.then(blurRequest.build())
         }
-
 
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
@@ -93,5 +92,4 @@ class WorkManagerViewModel @Inject constructor(
             .appendPath(resources.getResourceEntryName(R.drawable.android))
             .build()
     }
-
 }
