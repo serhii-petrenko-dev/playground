@@ -30,4 +30,19 @@
     <string name="permission_rationale">This permission is important. Please grant the permission.</string>
     <string name="permission_request">%1$s is required. Please grant the permission</string>
 
+    <string name="notification_sample_basic">Basic notification</string>
+    <string name="notification_sample_big_text">Big text notification</string>
+    <string name="notification_sample_actions">Notification with actions</string>
+    <string name="notification_sample_reply">Direct Reply Notification</string>
+    <string name="notification_sample_progress">Progress Notification</string>
+    <string name="notification_channel_default_name">Default notifications</string>
+    <string name="notification_channel_default_description">Default notification</string>
+    <string name="notification_sample_settings">Open channel settings</string>
+    <string name="notification_sample_query">Read channel settings</string>
+    <string name="notification_sample_delete">Delete notification channel</string>
+
+    <string name="notification_reply_label">Reply</string>
+    <string name="notification_cancel_label">Cancel</string>
+    <string name="notification_dismiss_label">Dismiss</string>
+
 </resources>

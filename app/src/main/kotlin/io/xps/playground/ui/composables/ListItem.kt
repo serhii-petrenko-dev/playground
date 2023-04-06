@@ -24,7 +24,7 @@ fun ListItem(
     tittle: String,
     hint: String = "",
     @DrawableRes drawable: Int,
-    isSelected: Boolean,
+    isSelected: Boolean = false,
     onClick: () -> Unit
 ) {
     Row(
