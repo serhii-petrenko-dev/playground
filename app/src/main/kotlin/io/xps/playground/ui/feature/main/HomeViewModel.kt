@@ -1,8 +1,21 @@
 package io.xps.playground.ui.feature.main
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BackHand
+import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.Downloading
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.ImageSearch
+import androidx.compose.material.icons.filled.NotificationsActive
+import androidx.compose.material.icons.filled.SettingsOverscan
+import androidx.compose.material.icons.filled.SmartDisplay
+import androidx.compose.material.icons.filled.TextFields
+import androidx.compose.material.icons.filled.Transform
+import androidx.compose.material.icons.filled.Translate
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,77 +52,84 @@ class HomeViewModel @Inject constructor(
             Destination(
                 id = R.id.goPermissions,
                 name = R.string.permissions,
-                drawableRes = R.drawable.ic_hand
-            )
-        )
-        destinations.add(
-            Destination(
-                id = R.id.goNotifications,
-                name = R.string.notifications,
-                drawableRes = R.drawable.ic_notifications
+                icon = Icons.Default.BackHand
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goOverlay,
                 name = R.string.floating_overlay,
-                drawableRes = R.drawable.ic_overlay
+                icon = Icons.Default.SettingsOverscan
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goMultiCam,
                 name = R.string.multiple_cameras,
-                drawableRes = R.drawable.ic_camera_multi
+                icon = Icons.Default.Camera
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goInputsDemo,
                 name = R.string.inputs_demo,
-                drawableRes = R.drawable.ic_text_fields
+                icon = Icons.Default.TextFields
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goFileSystem,
                 name = R.string.file_system,
-                drawableRes = R.drawable.ic_folder
+                icon = Icons.Default.Folder
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goWorkManager,
                 name = R.string.work_manager,
-                drawableRes = R.drawable.ic_downloading
+                icon = Icons.Default.Downloading
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goLanguagePicker,
                 name = R.string.language_picker,
-                drawableRes = R.drawable.ic_translate
+                icon = Icons.Default.Translate
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goImagePicker,
                 name = R.string.image_picker,
-                drawableRes = R.drawable.ic_image_search
+                icon = Icons.Default.ImageSearch
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goExoPlayer,
                 name = R.string.exo_player,
-                drawableRes = R.drawable.ic_display
+                icon = Icons.Default.SmartDisplay
             )
         )
         destinations.add(
             Destination(
                 id = R.id.goSerialization,
                 name = R.string.serialization,
-                drawableRes = R.drawable.ic_transform
+                icon = Icons.Default.Transform
+            )
+        )
+        destinations.add(
+            Destination(
+                id = R.id.goNotifications,
+                name = R.string.notifications,
+                icon = Icons.Default.NotificationsActive
+            )
+        )
+        destinations.add(
+            Destination(
+                id = R.id.goLiquidWidget,
+                name = R.string.liquid_widget,
+                icon = Icons.Default.WaterDrop
             )
         )
 
@@ -121,7 +141,7 @@ class HomeViewModel @Inject constructor(
         @StringRes
         val name: Int,
         val hint: String = "",
-        @DrawableRes val drawableRes: Int,
+        val icon: ImageVector,
         val parent: Destination? = null
     ) {
 

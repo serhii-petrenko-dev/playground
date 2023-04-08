@@ -14,6 +14,7 @@
     <string name="exo_player">Exo Player</string>
     <string name="serialization">Serialization</string>
     <string name="notifications">Notifications</string>
+    <string name="liquid_widget">Liquid Widget</string>
 
     <string name="camera_permission">Grant camera permission</string>
     <string name="camera_error">This device does not support Camera2 API.</string>
@@ -32,11 +33,14 @@
 
     <string name="notification_sample_basic">Basic notification</string>
     <string name="notification_sample_big_text">Big text notification</string>
-    <string name="notification_sample_actions">Notification with actions</string>
+    <string name="notification_sample_actions">Notification with Actions</string>
     <string name="notification_sample_reply">Direct Reply Notification</string>
     <string name="notification_sample_progress">Progress Notification</string>
+    <string name="notification_sample_urgent">Urgent Notification</string>
     <string name="notification_channel_default_name">Default notifications</string>
+    <string name="notification_channel_important_name">Important notifications</string>
     <string name="notification_channel_default_description">Default notification</string>
+    <string name="notification_channel_important_description">Important notification</string>
     <string name="notification_sample_settings">Open channel settings</string>
     <string name="notification_sample_query">Read channel settings</string>
     <string name="notification_sample_delete">Delete notification channel</string>

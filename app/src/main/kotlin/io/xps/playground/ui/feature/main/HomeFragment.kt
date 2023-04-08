@@ -147,7 +147,8 @@ class HomeFragment : Fragment(R.layout.fragment_compose) {
         ) {
             Icon(
                 modifier = Modifier.padding(end = 16.dp),
-                painter = painterResource(id = destination.drawableRes),
+                imageVector = destination.icon,
+                tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null
             )
             Column(

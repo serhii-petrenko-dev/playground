@@ -87,7 +87,7 @@
             app:enterAnim="@anim/show_from_right"
             app:exitAnim="@anim/hide_to_left"
             app:popExitAnim="@anim/hide_to_right"
-            app:popEnterAnim="@anim/show_from_left"/>
+            app:popEnterAnim="@anim/show_from_left" />
 
         <action
             android:id="@+id/goNotifications"
@@ -95,7 +95,15 @@
             app:enterAnim="@anim/show_from_right"
             app:exitAnim="@anim/hide_to_left"
             app:popExitAnim="@anim/hide_to_right"
-            app:popEnterAnim="@anim/show_from_left"/>
+            app:popEnterAnim="@anim/show_from_left" />
+
+        <action
+            android:id="@+id/goLiquidWidget"
+            app:destination="@+id/fragmentLiquid"
+            app:enterAnim="@anim/show_from_right"
+            app:exitAnim="@anim/hide_to_left"
+            app:popExitAnim="@anim/hide_to_right"
+            app:popEnterAnim="@anim/show_from_left" />
 
     </fragment>
 
@@ -137,17 +145,22 @@
     <fragment
         android:id="@+id/fragmentImagePicker"
         android:name="io.xps.playground.ui.feature.imagePicker.ImagePickerFragment"
-        tools:layout="@layout/fragment_compose"/>
+        tools:layout="@layout/fragment_compose" />
 
     <fragment
         android:id="@+id/fragmentExoPlayer"
         android:name="io.xps.playground.ui.feature.exoPlayer.ExoPlayerFragment"
-        tools:layout="@layout/fragment_compose"/>
+        tools:layout="@layout/fragment_compose" />
 
     <fragment
         android:id="@+id/fragmentSerialization"
         android:name="io.xps.playground.ui.feature.serialization.SerializationFragment"
-        tools:layout="@layout/fragment_compose"/>
+        tools:layout="@layout/fragment_compose" />
+
+    <fragment
+        android:id="@+id/fragmentLiquid"
+        android:name="io.xps.playground.ui.feature.liquidWidget.LiquidWidgetFragment"
+        tools:layout="@layout/fragment_compose" />
 
     <fragment
         android:id="@+id/fragmentNotifications"

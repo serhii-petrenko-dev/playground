@@ -32,6 +32,7 @@ import androidx.core.app.NotificationCompat.CATEGORY_PROGRESS
 import androidx.core.app.NotificationCompat.CATEGORY_PROMO
 import androidx.core.app.NotificationCompat.CATEGORY_RECOMMENDATION
 import androidx.core.app.NotificationCompat.EXTRA_NOTIFICATION_ID
+import androidx.core.app.NotificationCompat.VISIBILITY_SECRET
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
@@ -59,6 +60,7 @@ const val KEY_TEXT_REPLY = "key_reply"
 const val REPLY_ACTION = "io.xps.playground.ui.feature.notifications.reply"
 const val DISMISS_ACTION = "io.xps.playground.ui.feature.notifications.dismiss"
 const val DEFAULT_CHANNEL_ID = "default"
+const val IMPORTANT_CHANNEL_ID = "important"
 
 @AndroidEntryPoint
 class NotificationsFragment : Fragment(R.layout.fragment_compose) {
@@ -79,7 +81,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createNotificationChannel()
+        createNotificationChannels()
         registerLifecycleEvents()
         val sampleItems = samples()
 
@@ -143,6 +145,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
             R.string.notification_sample_actions -> notificationWithActions()
             R.string.notification_sample_reply -> directReplyNotification()
             R.string.notification_sample_progress -> notificationWithProgress()
+            R.string.notification_sample_urgent -> urgentNotification()
             R.string.notification_sample_query -> readNotificationChannelSettings(
                 DEFAULT_CHANNEL_ID
             )
@@ -157,19 +160,25 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         }
     }
 
-    private fun notificationBase() = NotificationCompat.Builder(
-        requireContext(),
-        DEFAULT_CHANNEL_ID
-    ).setSmallIcon(R.drawable.ic_notifications)
-        .setContentTitle("My notification")
-        .setContentText("Much longer text that cannot fit one line...")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .withAppIntent()
+    private fun notificationBase(channelId: String = DEFAULT_CHANNEL_ID) =
+        NotificationCompat.Builder(requireContext(), channelId)
+            .setSmallIcon(R.drawable.ic_notifications)
+            .setContentTitle("My notification")
+            .setContentText("Much longer text that cannot fit one line...")
+            .withAppIntent()
+            .setPriority(
+                if (channelId == IMPORTANT_CHANNEL_ID) {
+                    NotificationCompat.PRIORITY_MAX
+                } else {
+                    NotificationCompat.PRIORITY_DEFAULT
+                }
+            )
 
     private fun basicNotification() {
         notify(
             notificationBase()
                 .setColor(Color.GREEN)
+                .setVisibility(VISIBILITY_SECRET)
                 .build()
         )
     }
@@ -256,11 +265,14 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
             actionIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
-        val builder = notificationBase().addAction(
-            R.drawable.ic_notifications,
-            getString(R.string.notification_cancel_label),
-            pendingActionIntent
-        ).setCategory(CATEGORY_PROGRESS)
+        val builder = notificationBase()
+            .setOnlyAlertOnce(true)
+            .setCategory(CATEGORY_PROGRESS)
+            .addAction(
+                R.drawable.ic_notifications,
+                getString(R.string.notification_cancel_label),
+                pendingActionIntent
+            )
 
         val atLeastM = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         if (atLeastM) {
@@ -300,6 +312,25 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
                 }
             }
         }
+    }
+
+    private fun urgentNotification() {
+        val context = requireContext()
+        val notificationId = Random.nextInt()
+
+        val fullScreenIntent = Intent(context, MainActivity::class.java)
+        val fullScreenPendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            fullScreenIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val builder = notificationBase(IMPORTANT_CHANNEL_ID).setFullScreenIntent(
+            fullScreenPendingIntent,
+            true
+        )
+        notify(builder.build(), notificationId)
     }
 
     private fun NotificationCompat.Builder.withAppIntent(): NotificationCompat.Builder {
@@ -352,24 +383,37 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         }
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannels() {
         val context = requireContext()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.notification_channel_default_name)
-            val descriptionText = getString(R.string.notification_channel_default_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(DEFAULT_CHANNEL_ID, name, importance)
-            channel.description = descriptionText
             val channelGroup = NotificationChannelGroup(
                 defaultChannelGroup,
                 context.getString(R.string.app_name)
             )
             notificationManager.createNotificationChannelGroup(channelGroup)
-            channel.group = defaultChannelGroup
+
+            val defaultChannel = NotificationChannel(
+                DEFAULT_CHANNEL_ID,
+                getString(R.string.notification_channel_default_name),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            defaultChannel.description =
+                getString(R.string.notification_channel_default_description)
+            defaultChannel.group = defaultChannelGroup
+
+            val importantChannel = NotificationChannel(
+                IMPORTANT_CHANNEL_ID,
+                getString(R.string.notification_channel_important_name),
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            importantChannel.description =
+                getString(R.string.notification_channel_important_description)
+            importantChannel.group = defaultChannelGroup
 
             // Register the channel with the system.
             // You can't change the importance or other notification behaviors after this.
-            notificationManager.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(defaultChannel)
+            notificationManager.createNotificationChannel(importantChannel)
         }
     }
 
@@ -387,6 +431,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         ListItem(R.string.notification_sample_actions),
         ListItem(R.string.notification_sample_reply),
         ListItem(R.string.notification_sample_progress),
+        ListItem(R.string.notification_sample_urgent),
         ListItem(R.string.notification_sample_query),
         ListItem(R.string.notification_sample_settings),
         ListItem(R.string.notification_sample_delete)

@@ -90,14 +90,15 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.compose.ui:ui:1.4.0")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha02")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.activity:activity-compose:1.8.0-alpha02")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.compose.material3:material3:1.1.0-beta01")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("androidx.compose.material:material-icons-extended:1.3.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0-RC")
 
