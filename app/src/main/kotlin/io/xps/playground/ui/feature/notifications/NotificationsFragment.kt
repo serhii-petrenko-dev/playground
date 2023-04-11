@@ -8,15 +8,21 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Context.SHORTCUT_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.CATEGORY_CALL
 import androidx.core.app.NotificationCompat.CATEGORY_MESSAGE
 import androidx.core.app.NotificationCompat.CATEGORY_PROGRESS
 import androidx.core.app.NotificationCompat.CATEGORY_PROMO
@@ -34,8 +41,10 @@ import androidx.core.app.NotificationCompat.CATEGORY_RECOMMENDATION
 import androidx.core.app.NotificationCompat.EXTRA_NOTIFICATION_ID
 import androidx.core.app.NotificationCompat.VISIBILITY_SECRET
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
 import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -52,15 +61,18 @@ import io.xps.playground.ui.composables.BaseColumn
 import io.xps.playground.ui.composables.ListItem
 import io.xps.playground.ui.composables.ScreenTittle
 import io.xps.playground.ui.theme.PlaygroundTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
-const val KEY_TEXT_REPLY = "key_reply"
-const val REPLY_ACTION = "io.xps.playground.ui.feature.notifications.reply"
-const val DISMISS_ACTION = "io.xps.playground.ui.feature.notifications.dismiss"
-const val DEFAULT_CHANNEL_ID = "default"
-const val IMPORTANT_CHANNEL_ID = "important"
+const val KEY_TEXT_REPLY = "${BuildConfig.APPLICATION_ID}.reply_action"
+const val REPLY_ACTION = "${BuildConfig.APPLICATION_ID}.reply"
+const val DISMISS_ACTION = "${BuildConfig.APPLICATION_ID}.dismiss"
+const val DEFAULT_GROUP_ID = "${BuildConfig.APPLICATION_ID}.group"
+const val DEFAULT_CHANNEL_ID = "${BuildConfig.APPLICATION_ID}.default"
+const val IMPORTANT_CHANNEL_ID = "${BuildConfig.APPLICATION_ID}.important"
 
 @AndroidEntryPoint
 class NotificationsFragment : Fragment(R.layout.fragment_compose) {
@@ -120,7 +132,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
     private fun NotificationsScreen(items: List<ListItem>) {
         BaseColumn {
             Surface(modifier = Modifier.fillMaxSize()) {
-                LazyColumn(modifier = Modifier.navigationBarsPadding()) {
+                LazyColumn {
                     item {
                         ScreenTittle(text = stringResource(id = R.string.notifications))
                     }
@@ -133,6 +145,9 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
                             }
                         )
                     }
+                    item {
+                        Box(modifier = Modifier.navigationBarsPadding())
+                    }
                 }
             }
         }
@@ -142,17 +157,26 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         when (item.content) {
             R.string.notification_sample_basic -> basicNotification()
             R.string.notification_sample_big_text -> bigTextNotification()
+            R.string.notification_sample_big_picture -> bigPictureNotification()
             R.string.notification_sample_actions -> notificationWithActions()
             R.string.notification_sample_reply -> directReplyNotification()
             R.string.notification_sample_progress -> notificationWithProgress()
             R.string.notification_sample_urgent -> urgentNotification()
+            R.string.notification_sample_inbox -> inboxNotification()
+            R.string.notification_sample_messaging -> messagingNotification()
+            R.string.notification_sample_custom -> customNotification()
+            R.string.notification_sample_group -> notificationWithGroup()
+            R.string.notification_sample_group_conversation -> groupConversationNotification()
+            R.string.notification_sample_conversation -> conversationNotification()
+            R.string.notification_sample_bubble -> bubbleNotification()
+            R.string.notification_sample_media -> mediaControlsNotification()
             R.string.notification_sample_query -> readNotificationChannelSettings(
                 DEFAULT_CHANNEL_ID
             )
 
-            R.string.notification_sample_settings -> {
-                openNotificationChannelSettings(DEFAULT_CHANNEL_ID)
-            }
+            R.string.notification_sample_settings -> openNotificationChannelSettings(
+                DEFAULT_CHANNEL_ID
+            )
 
             R.string.notification_sample_delete -> {
                 notificationManager.deleteNotificationChannel((DEFAULT_CHANNEL_ID))
@@ -175,12 +199,8 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
             )
 
     private fun basicNotification() {
-        notify(
-            notificationBase()
-                .setColor(Color.GREEN)
-                .setVisibility(VISIBILITY_SECRET)
-                .build()
-        )
+        val builder = notificationBase().setColor(Color.GREEN)
+        notify(builder.build())
     }
 
     private fun bigTextNotification() {
@@ -197,6 +217,18 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
             )
         ).setCategory(CATEGORY_PROMO)
         notify(builder.build())
+    }
+
+    private fun bigPictureNotification() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.android)
+            val builder = notificationBase().setStyle(
+                NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)
+            ).setLargeIcon(bitmap).setCategory(CATEGORY_PROMO)
+            withContext(Dispatchers.Main) {
+                notify(builder.build())
+            }
+        }
     }
 
     private fun notificationWithActions() {
@@ -268,6 +300,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         val builder = notificationBase()
             .setOnlyAlertOnce(true)
             .setCategory(CATEGORY_PROGRESS)
+            .setVisibility(VISIBILITY_SECRET)
             .addAction(
                 R.drawable.ic_notifications,
                 getString(R.string.notification_cancel_label),
@@ -326,10 +359,287 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val builder = notificationBase(IMPORTANT_CHANNEL_ID).setFullScreenIntent(
-            fullScreenPendingIntent,
-            true
+        val actionIntent = Intent(DISMISS_ACTION).apply {
+            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+        }
+        val pendingActionIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId,
+            actionIntent,
+            PendingIntent.FLAG_IMMUTABLE
         )
+
+        val builder = notificationBase(IMPORTANT_CHANNEL_ID)
+            .setOngoing(true)
+            .setFullScreenIntent(
+                fullScreenPendingIntent,
+                true
+            ).addAction(
+                R.drawable.ic_notifications,
+                getString(R.string.notification_dismiss_label),
+                pendingActionIntent
+            ).setCategory(CATEGORY_CALL)
+        notify(builder.build(), notificationId)
+    }
+
+    private fun inboxNotification() {
+        val notificationId = Random.nextInt()
+        val builder = notificationBase().setStyle(
+            NotificationCompat.InboxStyle()
+                .addLine("Message 1")
+                .addLine("Message 2")
+        )
+        notify(builder.build(), notificationId)
+    }
+
+    private fun messagingNotification() {
+        val context = requireContext()
+        val notificationId = Random.nextInt()
+        val person = Person.Builder()
+            .setName("John Doe")
+            .setKey("key")
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_background))
+            .setImportant(true)
+            .build()
+
+        val message1 = NotificationCompat.MessagingStyle.Message(
+            "Message 1",
+            System.currentTimeMillis(),
+            person
+        )
+        val message2 = NotificationCompat.MessagingStyle.Message(
+            "Message 2",
+            System.currentTimeMillis(),
+            person
+        )
+        val builder = NotificationCompat.Builder(context, DEFAULT_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notifications)
+            .withAppIntent()
+            .setStyle(
+                NotificationCompat.MessagingStyle(person)
+                    .setConversationTitle("My conversation name")
+                    .setGroupConversation(true)
+                    .addMessage(message1)
+                    .addMessage(message2)
+            )
+        notify(builder.build(), notificationId)
+    }
+
+    private fun mediaControlsNotification() {
+        // Requires MediaSession
+        // https://developer.android.com/develop/ui/views/notifications/expanded?media-style
+        requireContext().toast(R.string.todo)
+    }
+
+    private fun customNotification() {
+        val notificationLayout = RemoteViews(
+            BuildConfig.APPLICATION_ID,
+            R.layout.notification_layout
+        )
+        val builder = notificationBase()
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(notificationLayout)
+            .setCustomBigContentView(notificationLayout)
+            .setCategory(CATEGORY_PROMO)
+        notify(builder.build())
+    }
+
+    private fun notificationWithGroup() {
+        val builder = notificationBase().setGroup(DEFAULT_GROUP_ID)
+        notify(builder.build())
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val context = requireContext()
+            val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            var count = manager.activeNotifications.size
+            if (count > 1) {
+                count = if (count > 2) count - 1 else count
+                val summaryNotification = NotificationCompat.Builder(context, DEFAULT_CHANNEL_ID)
+                    .setContentTitle("Group Summary")
+                    .setContentText("$count new messages") // For API < 24 devices support
+                    .setSmallIcon(R.drawable.ic_notifications)
+                    .setStyle(
+                        NotificationCompat.InboxStyle()
+                            .setSummaryText("$count new messages")
+                    )
+                    .setGroup(DEFAULT_GROUP_ID)
+                    .setGroupSummary(true) // <---
+                notify(summaryNotification.build(), 100)
+            }
+        }
+    }
+
+    private fun conversationNotification() {
+        val context = requireContext()
+        val notificationId = Random.nextInt()
+
+        val person = Person.Builder()
+            .setName("John Doe")
+            .setKey("key")
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_background))
+            .setImportant(true)
+            .build()
+
+        // Create a sharing shortcut.
+        val shortcutId = "${BuildConfig.APPLICATION_ID}.shortcut"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val category = "${BuildConfig.APPLICATION_ID}.conversation"
+            val shortcut = ShortcutInfo.Builder(context, shortcutId)
+                .setCategories(setOf(category))
+                .setIntent(Intent(Intent.ACTION_DEFAULT))
+                .setLongLived(true)
+                .setShortLabel(person.name!!)
+                .build()
+            val shortcutManager = context.getSystemService(SHORTCUT_SERVICE) as ShortcutManager
+            shortcutManager.pushDynamicShortcut(shortcut)
+        }
+
+        val message1 = NotificationCompat.MessagingStyle.Message(
+            "Message 1",
+            System.currentTimeMillis(),
+            person
+        )
+        val message2 = NotificationCompat.MessagingStyle.Message(
+            "Message 2",
+            System.currentTimeMillis(),
+            person
+        )
+
+        // Create a notification, referencing the sharing shortcut.
+        val builder = NotificationCompat.Builder(context, DEFAULT_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notifications)
+            .withAppIntent()
+            .setShortcutId(shortcutId)
+            .setStyle(
+                NotificationCompat.MessagingStyle(person)
+                    .setConversationTitle("My conversation")
+                    .setGroupConversation(true)
+                    .addMessage(message1)
+                    .addMessage(message2)
+            )
+        notify(builder.build(), notificationId)
+    }
+
+    private fun groupConversationNotification() {
+        val context = requireContext()
+        val notificationId = Random.nextInt()
+
+        val person = Person.Builder()
+            .setName("John Doe")
+            .setKey("key")
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_background))
+            .setImportant(true)
+            .build()
+
+        val person2 = Person.Builder()
+            .setName("Peter Doe")
+            .setKey("key1")
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_background))
+            .setImportant(true)
+            .build()
+
+        // Create a sharing shortcut.
+        val shortcutId = "${BuildConfig.APPLICATION_ID}.shortcut"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val category = "${BuildConfig.APPLICATION_ID}.conversation"
+            val shortcut = ShortcutInfo.Builder(context, shortcutId)
+                .setCategories(setOf(category))
+                .setIntent(Intent(Intent.ACTION_DEFAULT))
+                .setLongLived(true)
+                .setShortLabel(person.name!!)
+                .build()
+            val shortcutManager = context.getSystemService(SHORTCUT_SERVICE) as ShortcutManager
+            shortcutManager.pushDynamicShortcut(shortcut)
+        }
+
+        val message1 = NotificationCompat.MessagingStyle.Message(
+            "Message 1",
+            System.currentTimeMillis(),
+            person
+        )
+        val message2 = NotificationCompat.MessagingStyle.Message(
+            "Message 2",
+            System.currentTimeMillis(),
+            person
+        )
+
+        // Create a notification, referencing the sharing shortcut.
+        val builder = NotificationCompat.Builder(context, DEFAULT_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notifications)
+            .withAppIntent()
+            .setShortcutId(shortcutId)
+            .addPerson(person)
+            .addPerson(person2)
+            .setStyle(
+                NotificationCompat.MessagingStyle(person)
+                    .setConversationTitle("My conversation")
+                    .setGroupConversation(true)
+                    .addMessage(message1)
+                    .addMessage(message2)
+            )
+        notify(builder.build(), notificationId)
+    }
+
+    private fun bubbleNotification() {
+        val context = requireContext()
+        val notificationId = Random.nextInt()
+
+        val person = Person.Builder()
+            .setName("John Doe")
+            .setKey("key")
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_launcher_background))
+            .setImportant(true)
+            .build()
+
+        // Create a sharing shortcut.
+        val shortcutId = "${BuildConfig.APPLICATION_ID}.shortcut"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val category = "${BuildConfig.APPLICATION_ID}.conversation"
+            val shortcut = ShortcutInfo.Builder(context, shortcutId)
+                .setCategories(setOf(category))
+                .setIntent(Intent(Intent.ACTION_DEFAULT))
+                .setLongLived(true)
+                .setShortLabel(person.name!!)
+                .build()
+            val shortcutManager = context.getSystemService(SHORTCUT_SERVICE) as ShortcutManager
+            shortcutManager.pushDynamicShortcut(shortcut)
+        }
+
+        val message1 = NotificationCompat.MessagingStyle.Message(
+            "Message 1",
+            System.currentTimeMillis(),
+            person
+        )
+
+        // Create a notification, referencing the sharing shortcut.
+        var builder = NotificationCompat.Builder(context, DEFAULT_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notifications)
+            .withAppIntent()
+            .setShortcutId(shortcutId)
+            .setStyle(
+                NotificationCompat.MessagingStyle(person)
+                    .setConversationTitle("My conversation")
+                    .addMessage(message1)
+            )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Create a bubble intent.
+            val target = Intent(context, BubbleActivity::class.java)
+            val bubbleIntent = PendingIntent.getActivity(
+                context,
+                0,
+                target,
+                PendingIntent.FLAG_MUTABLE
+            )
+
+            // Create a bubble metadata.
+            val bubbleData = NotificationCompat.BubbleMetadata.Builder(
+                bubbleIntent,
+                IconCompat.createWithResource(context, R.drawable.ic_notifications)
+            ).setDesiredHeight(600).build()
+            builder = builder.setBubbleMetadata(bubbleData)
+        }
+
         notify(builder.build(), notificationId)
     }
 
@@ -428,10 +738,19 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
     private fun samples() = listOf(
         ListItem(R.string.notification_sample_basic),
         ListItem(R.string.notification_sample_big_text),
+        ListItem(R.string.notification_sample_big_picture),
         ListItem(R.string.notification_sample_actions),
         ListItem(R.string.notification_sample_reply),
         ListItem(R.string.notification_sample_progress),
         ListItem(R.string.notification_sample_urgent),
+        ListItem(R.string.notification_sample_inbox),
+        ListItem(R.string.notification_sample_messaging),
+        ListItem(R.string.notification_sample_custom),
+        ListItem(R.string.notification_sample_group),
+        ListItem(R.string.notification_sample_conversation),
+        ListItem(R.string.notification_sample_group_conversation),
+        ListItem(R.string.notification_sample_bubble),
+        ListItem(R.string.notification_sample_media),
         ListItem(R.string.notification_sample_query),
         ListItem(R.string.notification_sample_settings),
         ListItem(R.string.notification_sample_delete)

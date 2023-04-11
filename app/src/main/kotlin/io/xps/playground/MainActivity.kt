@@ -28,13 +28,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applyEdgeToEdge()
         initNavigation()
-        lifecycleScope.launchWhenResumed {
-            observeNavigationCommands()
-        }
     }
 
     private fun applyEdgeToEdge() {
@@ -51,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         host.navController.graph = navGraph
         navController = host.navController
         navController.addOnDestinationChangedListener(changeListener)
+        lifecycleScope.launchWhenResumed {
+            observeNavigationCommands()
+        }
     }
 
     private suspend fun observeNavigationCommands() {
