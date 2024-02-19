@@ -13,6 +13,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
@@ -223,7 +224,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         lifecycleScope.launch(Dispatchers.IO) {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.android)
             val builder = notificationBase().setStyle(
-                NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)
+                NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null as Bitmap?)
             ).setLargeIcon(bitmap).setCategory(CATEGORY_PROMO)
             withContext(Dispatchers.Main) {
                 notify(builder.build())

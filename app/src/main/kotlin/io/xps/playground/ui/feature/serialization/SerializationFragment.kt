@@ -14,8 +14,12 @@ import io.xps.playground.tools.fromJson
 import io.xps.playground.tools.toJson
 import io.xps.playground.tools.viewBinding
 import io.xps.playground.ui.theme.PlaygroundTheme
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.MissingFieldException
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 @AndroidEntryPoint
 class SerializationFragment : Fragment(R.layout.fragment_compose) {
