@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.xps.playground.databinding.ActivityMainBinding
 import io.xps.playground.tools.NavigationDispatcher
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 const val TRANSLUCENT_STATUS = 67108864
@@ -48,8 +51,11 @@ class MainActivity : AppCompatActivity() {
         host.navController.graph = navGraph
         navController = host.navController
         navController.addOnDestinationChangedListener(changeListener)
-        lifecycleScope.launchWhenResumed {
-            observeNavigationCommands()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                observeNavigationCommands()
+            }
         }
     }
 

@@ -208,13 +208,13 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         val builder = notificationBase().setStyle(
             NotificationCompat.BigTextStyle().bigText(
                 "Much longer text that cannot fit one line..." +
-                        "Much longer text that cannot fit one line... " +
-                        "Much longer text that cannot fit one line... " +
-                        "Much longer text that cannot fit one line... " +
-                        "Much longer text that cannot fit one line... " +
-                        "Much longer text that cannot fit one line... " +
-                        "Much longer text that cannot fit one line... " +
-                        "Much longer text that cannot fit one line..."
+                    "Much longer text that cannot fit one line... " +
+                    "Much longer text that cannot fit one line... " +
+                    "Much longer text that cannot fit one line... " +
+                    "Much longer text that cannot fit one line... " +
+                    "Much longer text that cannot fit one line... " +
+                    "Much longer text that cannot fit one line... " +
+                    "Much longer text that cannot fit one line..."
             )
         ).setCategory(CATEGORY_PROMO)
         notify(builder.build())
@@ -224,7 +224,9 @@ class NotificationsFragment : Fragment(R.layout.fragment_compose) {
         lifecycleScope.launch(Dispatchers.IO) {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.android)
             val builder = notificationBase().setStyle(
-                NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null as Bitmap?)
+                NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(
+                    null as Bitmap?
+                )
             ).setLargeIcon(bitmap).setCategory(CATEGORY_PROMO)
             withContext(Dispatchers.Main) {
                 notify(builder.build())

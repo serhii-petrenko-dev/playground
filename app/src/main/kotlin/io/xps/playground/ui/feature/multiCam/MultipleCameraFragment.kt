@@ -431,7 +431,7 @@ class MultipleCameraFragment : Fragment(R.layout.fragment_multiple_cam) {
                 }
 
                 val message = "selected aspect ratio " + aspectRatio.height + "x" +
-                        aspectRatio.width + " : " + aspectRatio.height / aspectRatio.width
+                    aspectRatio.width + " : " + aspectRatio.height / aspectRatio.width
                 Log.d(TAG, message)
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.
@@ -579,7 +579,7 @@ class MultipleCameraFragment : Fragment(R.layout.fragment_multiple_cam) {
                 }
 
                 val message = "selected aspect ratio " + aspectRatio.height + "x" +
-                        aspectRatio.width + " : " + aspectRatio.height / aspectRatio.width
+                    aspectRatio.width + " : " + aspectRatio.height / aspectRatio.width
                 Log.d(TAG, message)
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.

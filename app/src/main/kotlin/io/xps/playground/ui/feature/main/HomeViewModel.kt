@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.SettingsOverscan
 import androidx.compose.material.icons.filled.SmartDisplay
+import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.Transform
 import androidx.compose.material.icons.filled.Translate
@@ -47,6 +48,14 @@ class HomeViewModel @Inject constructor(
 
     private fun boostrapNavigation(): List<Destination> {
         val destinations = mutableListOf<Destination>()
+
+        destinations.add(
+            Destination(
+                id = R.id.goComposePerformance,
+                name = R.string.compose_performance,
+                icon = Icons.Default.Speed
+            )
+        )
 
         destinations.add(
             Destination(

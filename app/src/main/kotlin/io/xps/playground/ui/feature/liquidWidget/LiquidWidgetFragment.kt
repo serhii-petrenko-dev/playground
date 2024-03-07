@@ -56,7 +56,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -321,10 +320,4 @@ class LiquidWidgetFragment : Fragment(R.layout.fragment_compose) {
         start = calculateStartPadding(LayoutDirection.Ltr) * value,
         end = calculateEndPadding(LayoutDirection.Ltr) * value
     )
-
-    @Composable
-    @Preview()
-    fun Preview() {
-        LiquidScreen()
-    }
 }

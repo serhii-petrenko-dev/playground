@@ -105,6 +105,14 @@
             app:popExitAnim="@anim/hide_to_right"
             app:popEnterAnim="@anim/show_from_left" />
 
+        <action
+            android:id="@+id/goComposePerformance"
+            app:destination="@+id/fragmentComposePerformance"
+            app:enterAnim="@anim/show_from_right"
+            app:exitAnim="@anim/hide_to_left"
+            app:popExitAnim="@anim/hide_to_right"
+            app:popEnterAnim="@anim/show_from_left" />
+
     </fragment>
 
     <fragment
@@ -176,5 +184,10 @@
             app:popEnterAnim="@anim/show_from_left"/>
 
     </fragment>
+
+    <fragment
+        android:id="@+id/fragmentComposePerformance"
+        android:name="io.xps.playground.ui.feature.composePerformance.ComposePerformanceFragment"
+        tools:layout="@layout/fragment_compose" />
 
 </navigation>

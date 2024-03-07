@@ -4,6 +4,7 @@
     <string name="permissions">Permissions</string>
 
     <string name="compose">Compose</string>
+    <string name="compose_performance">Compose Performance</string>
     <string name="view">View</string>
     <string name="floating_overlay">Floating Overlay</string>
     <string name="multiple_cameras">Multiple Cameras</string>
